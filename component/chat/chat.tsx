@@ -46,11 +46,11 @@ function Chat() {
     };
   }, [installPrompt]);
 
-  // useEffect(() => {
-  //   if (!authToken) {
-  //     router.push("/Auth");
-  //   }
-  // }, [authToken, router]);
+  useEffect(() => {
+    if (!authToken) {
+      router.push("/Auth");
+    }
+  }, [authToken, router]);
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -205,15 +205,15 @@ function Chat() {
       >
         <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky   0 z-50 sm:px-4 lg:px-8 xl:px-2 ">
 
-          <div className="flex ps-3">
+          <div className="flex ps-3 w-[50%]">
             <FaUserCircle className="w-8 h-8 mr-2 mt-2 " />
-            <div className="text-lg font-semibold ps-2">
-              <p className="text-md">{user}</p>
+            <div className="font-semibold ps-2">
+              <p className="text-lg">{user}</p>
               <p className="text-sm">Room -:{room}</p>
             </div>
           </div>
 
-          <div className="flex gap-3 pe-2 items-center">
+          <div className="flex flex-wrap gap-3 pe-2 items-center w-[50%] justify-end">
             <IoMdVideocam className="text-2xl" />
             <MdCall className="text-2xl" />
             <GoDownload onClick={handleInstallButtonClick} className="text-2xl fw-bold" />
