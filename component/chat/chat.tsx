@@ -10,7 +10,7 @@ import { GoDownload, GoPaperclip } from "react-icons/go";
 import { FaCamera } from "react-icons/fa";
 import moment from "moment-timezone";
 import Swal from "sweetalert2";
-import { addDoc, collection, serverTimestamp, onSnapshot, query, where } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { useRouter } from 'next/router'
 import Cookies from "universal-cookie";
@@ -145,6 +145,7 @@ function Chat() {
     }
 
     // If the message is not empty, add it to the Firestore collection
+    setNewMessage("");
     await addDoc(messagesRef, {
       id: uniqueId,
       text: newMessage,
@@ -152,7 +153,6 @@ function Chat() {
       user: auth.currentUser?.displayName,
       room,
     });
-    setNewMessage("");
   };
 
   const logout = () => {

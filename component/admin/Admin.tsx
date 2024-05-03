@@ -100,19 +100,19 @@ function Admin() {
     };
 
     // Function to format timestamp into date and time
-    const formatDateTime = (timestamp:string) => {
+    const formatDateTime = (timestamp: string) => {
         if (!timestamp) {
-          return { formattedDate: "", formattedTime: "" };
+            return { formattedDate: "", formattedTime: "" };
         }
         // Convert timestamp to JavaScript Date object
         const jsDate = new Date(parseInt(timestamp));
         // Format the date and time using moment.js
         const formattedDate = moment(jsDate).format("DD-MM-YYYY");
         const formattedTime = moment(jsDate).format("hh:mm A");
-      
+
         return { formattedDate, formattedTime };
-      };
-      
+    };
+
 
     return (
         <div>
@@ -171,12 +171,12 @@ function Admin() {
                     </div>
                 </div>
             ) : (
-              <div className="flex justify-center align-bottom mt-10">
-                <Radio
-                    visible={true}
-                    width="80"
-                    ariaLabel="radio-loading"
-                /></div>
+                <div className=" flex justify-center align-bottom mt-10">
+                    <Radio
+                        visible={true}
+                        width="80"
+                        ariaLabel="radio-loading"
+                    /></div>
             )}
 
         </div>

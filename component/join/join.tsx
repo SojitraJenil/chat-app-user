@@ -49,8 +49,8 @@ function Join() {
       return;
     }
     setCookie("room", room, 7);
-    router.push(`/chat`); // Redirect to the chat room after setting isInChat to true
-  };
+    router.push(`/chat`); 
+};
 
   function setCookie(name:any, value:any, days:any) {
     const expires = new Date();
