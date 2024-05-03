@@ -224,7 +224,6 @@ function Chat() {
             <GrLogout onClick={logout} className="text-xl " />
           </div>
         </div>
-
         <div
           className="flex-grow overflow-y-auto"
           ref={containRef}
