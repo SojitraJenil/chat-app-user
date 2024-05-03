@@ -212,7 +212,7 @@ function Chat() {
             </div>
           </div>
 
-          <div className="flex gap-5 pe-2 items-center">
+          <div className="flex gap-3 pe-2 items-center">
             <IoMdVideocam className="text-2xl" />
             <MdCall className="text-2xl" />
             <GoDownload onClick={handleInstallButtonClick} className="text-2xl fw-bold" />
