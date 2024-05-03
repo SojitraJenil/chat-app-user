@@ -10,17 +10,11 @@ import { GoDownload, GoPaperclip } from "react-icons/go";
 import { FaCamera } from "react-icons/fa";
 import moment from "moment-timezone";
 import Swal from "sweetalert2";
-import {
-  addDoc,
-  collection,
-  serverTimestamp,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, serverTimestamp, onSnapshot, query, where } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { useRouter } from 'next/router'
 import Cookies from "universal-cookie";
+import dynamic from "next/dynamic";
 
 function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -33,24 +27,24 @@ function Chat() {
   const router = useRouter()
   const cookies = new Cookies();
   const authToken = cookies.get("auth-token");
-  // const room = new URLSearchParams(location.search).get("room");
+  const uniqueId = generateUniqueId();
   var room = getCookie("room");
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (event:any) => {
-        event.preventDefault();
-        setInstallPrompt(event);
+    const handleBeforeInstallPrompt = (event: any) => {
+      event.preventDefault();
+      setInstallPrompt(event);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-        window.removeEventListener(
-            "beforeinstallprompt",
-            handleBeforeInstallPrompt
-        );
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
     };
-}, [installPrompt]);
+  }, [installPrompt]);
 
   useEffect(() => {
     if (!authToken) {
@@ -73,13 +67,13 @@ function Chat() {
   useEffect(() => {
     const queryMessages = query(messagesRef, where("room", "==", room || ""));
     const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
-      let messages : any = [];
+      let messages: any = [];
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
       const sortedMessages = messages
         .slice()
-        .sort((a:any, b:any) => a.createdAt - b.createdAt);
+        .sort((a: any, b: any) => a.createdAt - b.createdAt);
       setLoader(false);
       setMessages(sortedMessages);
       setLoader(false);
@@ -89,35 +83,44 @@ function Chat() {
   }, []);
 
 
-  function getCookie(name:any) {
+  function getCookie(name: any) {
     // Check if document object is available (specific to browser environments)
     if (typeof document !== 'undefined') {
-        var cookies = document.cookie.split(";");
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.startsWith(name + "=")) {
-                return cookie.substring(name.length + 1);
-            } 
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.startsWith(name + "=")) {
+          return cookie.substring(name.length + 1);
         }
+      }
     }
     return null;
-}
-  function deleteCookie(name:any) {
+  }
+  function deleteCookie(name: any) {
     document.cookie =
       name + "=; Max-Age=0; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
   }
-
-  const formatDateTime = (timestamp:any) => {
+  const formatDateTime = (timestamp: string) => {
     if (!timestamp) {
       return { formattedDate: "", formattedTime: "" };
     }
-
-    const jsDate = timestamp.toDate();
+    // Convert timestamp to JavaScript Date object
+    const jsDate = new Date(parseInt(timestamp));
+    // Format the date and time using moment.js
     const formattedDate = moment(jsDate).format("DD-MM-YYYY");
     const formattedTime = moment(jsDate).format("hh:mm A");
 
     return { formattedDate, formattedTime };
   };
+
+
+  function generateUniqueId() {
+    const timestamp = new Date().getTime(); // Get current timestamp
+    const randomPart = Math.random().toString(36).substring(2, 7); // Generate random string
+    const uniqueId = `${timestamp}${randomPart}`; // Concatenate timestamp and random string
+
+    return uniqueId;
+  }
 
   const sendMessage = async () => {
     if (newMessage.trim() === "") {
@@ -143,8 +146,9 @@ function Chat() {
 
     // If the message is not empty, add it to the Firestore collection
     await addDoc(messagesRef, {
+      id: uniqueId,
       text: newMessage,
-      createdAt: serverTimestamp(),
+      createdAt: new Date().getTime(),
       user: auth.currentUser?.displayName,
       room,
     });
@@ -167,7 +171,7 @@ function Chat() {
     });
   };
 
-  const MessageHandler = (event:any) => {
+  const MessageHandler = (event: any) => {
     const message = event.target.value;
     setNewMessage(message);
     if (message.trim().length === 0) {
@@ -179,16 +183,16 @@ function Chat() {
 
   const handleInstallButtonClick = async () => {
     if (installPrompt) {
-        try {
-            await installPrompt.prompt();
-            const choiceResult = await installPrompt.userChoice;
-        } catch (error) {
-            console.error("Error prompting installation:", error);
-        }
+      try {
+        await installPrompt.prompt();
+        const choiceResult = await installPrompt.userChoice;
+      } catch (error) {
+        console.error("Error prompting installation:", error);
+      }
     }
-};
+  };
 
-const containRef = useRef<HTMLDivElement>(null);
+  const containRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="container mx-auto h-screen max-w-md text-sm">
@@ -245,43 +249,39 @@ const containRef = useRef<HTMLDivElement>(null);
                 <div key={index}>
                   {(index === 0 ||
                     formatDateTime(data.createdAt).formattedDate !==
-                      formatDateTime(messages[index - 1].createdAt)
-                        .formattedDate) && (
-                    <center>
-                      <div className="mb-2">
-                        <span className="px-4 bg-white h-auto rounded-md">
-                          {formatDateTime(data.createdAt).formattedDate}{" "}
-                        </span>
-                      </div>
-                    </center>
-                  )}
+                    formatDateTime(messages[index - 1].createdAt)
+                      .formattedDate) && (
+                      <center>
+                        <div className="mb-2">
+                          <span className="px-4 bg-white h-auto rounded-md">
+                            {formatDateTime(data.createdAt).formattedDate}{" "}
+                          </span>
+                        </div>
+                      </center>
+                    )}
                   <div
-                    className={`message_content flex ${
-                      user === data.user ? "justify-end" : "justify-start"
-                    }`}
+                    className={`message_content flex ${user === data.user ? "justify-end" : "justify-start"
+                      }`}
                   >
                     <div
-                      className={`message_content flex ${
-                        user === data.user ? "hidden" : "justify-start"
-                      }`}
+                      className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
+                        }`}
                     >
                       <FaUserCircle className="w-5 h-8 mr-2" />
                     </div>
 
                     <div
-                      className={`${
-                        user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
-                      } text-dark rounded-lg p-2`}
+                      className={`${user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
+                        } text-dark rounded-lg p-2`}
                       style={{ maxWidth: "300px" }}
                     >
                       <div className="justify-between max-w-[300px]">
-                        <p
-                          className={`font-bold ${
-                            user === data.user ? "hidden" : "block"
-                          }`}
+                        <span
+                          className={`font-bold ${user === data.user ? "hidden" : "block"
+                            }`}
                         >
                           {data.user}-:
-                        </p>
+                        </span>
                         <span
                           className="whitespace-normal "
                           style={{ wordWrap: "break-word" }}
@@ -289,7 +289,7 @@ const containRef = useRef<HTMLDivElement>(null);
                           {data.text}
                         </span>
                         <div style={{ fontSize: "10px" }}>
-                          <p>{formatDateTime(data.createdAt).formattedTime}</p>
+                          <span>{formatDateTime(data.createdAt).formattedTime}</span>
                         </div>
                       </div>
                     </div>
@@ -322,16 +322,23 @@ const containRef = useRef<HTMLDivElement>(null);
             <GoPaperclip />
             <RiMoneyRupeeCircleFill />
           </div>
-          <button
-            className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-            type="submit"
-          >
-            {ChatOrMic ? <FaMicrophone /> : <IoSend onClick={sendMessage} />}
-          </button>
+          {
+            ChatOrMic ?
+              <button
+                className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
+                type="submit">
+                <FaMicrophone />
+              </button> :
+              <button
+                className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
+                type="submit" onClick={sendMessage}>
+                <IoSend />
+              </button>
+          }
         </div>
       </div>
     </div>
   );
 }
 
-export default Chat;
+export default dynamic(() => Promise.resolve(Chat), { ssr: false });

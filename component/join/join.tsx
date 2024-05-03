@@ -3,6 +3,7 @@ import Cookies from "universal-cookie";
 import { useRouter } from 'next/router'
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
+import dynamic from "next/dynamic";
 
 function Join() {
   const cookies = new Cookies();
@@ -120,4 +121,4 @@ function Join() {
   );
 }
 
-export default Join;
+export default dynamic(() => Promise.resolve(Join), { ssr: false });
