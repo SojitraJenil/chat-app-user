@@ -12,19 +12,19 @@ function Join() {
   const [room, setRoom] = useState("");
   const router = useRouter()
   
-  useEffect(() => {
-    const roomFromCookie = cookies.get("room");
-    if (roomFromCookie) {
-      router.push(`/chat`);
-    }
-  }, [cookies, router]);
+  // useEffect(() => {
+  //   const roomFromCookie = cookies.get("room");
+  //   if (roomFromCookie) {
+  //     router.push(`/chat`);
+  //   }
+  // }, [cookies, router]);
 
   
-  useEffect(() => { 
-    if (!authToken) {
-      router.push("/Auth");
-    }
-  }, [authToken, router]);
+  // useEffect(() => { 
+  //   if (!authToken) {
+  //     router.push("/Auth");
+  //   }
+  // }, [authToken, router]);
 
 
   const JoinRoomHandler = () => {
