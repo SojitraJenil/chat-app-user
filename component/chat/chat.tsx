@@ -203,7 +203,8 @@ function Chat() {
             'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
         }}
       >
-        <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky top-0 z-50">
+        <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky top-0 z-50 sm:px-4 lg:px-8 xl:px-2 ">
+
           <div className="flex ps-3">
             <FaUserCircle className="w-8 h-8 mr-2 mt-2 " />
             <div className="text-lg font-semibold ps-2">
@@ -300,42 +301,83 @@ function Chat() {
           </div>
         </div>
 
-        <div className="flex items-center mt-4 p-2 w-full ">
-          <div className="bg-white py-[11px] ps-3 rounded-l-full text-2xl">
-            <MdOutlineEmojiEmotions />
-          </div>
-          <input
-            type="text"
-            value={newMessage}
-            onChange={MessageHandler}
-            placeholder="Message... "
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                sendMessage();
-              }
-            }}
-            className=" w-[20%] flex-grow border  px-4 py-3 focus:outline-none focus:border-transparent  border-transparent"
-          />
-          <div className="bg-white flex gap-4 py-[11px] pe-3 rounded-r-full text-2xl">
-            <FaCamera className="text-xl" />
-            <GoPaperclip />
-            <RiMoneyRupeeCircleFill />
-          </div>
-          {
-            ChatOrMic ?
-              <button
-                className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-                type="submit">
-                <FaMicrophone />
-              </button> :
-              <button
-                className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-                type="submit" onClick={sendMessage}>
-                <IoSend />
-              </button>
-          }
-        </div>
+       {/* <div className="flex items-center mt-4 p-2 w-full flex-wrap">
+  <div className="bg-white py-[11px] px-3 rounded-l-full text-xl mb-2 md:mb-0 md:mr-2">
+    <MdOutlineEmojiEmotions />
+  </div>
+  <input
+    type="text"
+    value={newMessage}
+    onChange={MessageHandler}
+    placeholder="Message... "
+    onKeyPress={(e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
+    }}
+    className="w-full md:w-auto flex-grow border px-4 py-3 focus:outline-none focus:border-transparent border-transparent mb-2 md:mb-0 md:mr-2"
+  />
+  <div className="bg-white flex gap-4 py-[11px] px-3 rounded-r-full text-xl mb-2 md:mb-0">
+    <FaCamera className="text-xl" />
+    <GoPaperclip />
+    <RiMoneyRupeeCircleFill />
+  </div>
+  {
+    ChatOrMic ?
+      <button
+        className="ml-2 bg-[#035F52] text-white p-4 rounded-full send-button"
+        type="submit">
+        <FaMicrophone />
+      </button> :
+      <button
+        className="ml-2 bg-[#035F52] text-white p-4 rounded-full send-button"
+        type="submit" onClick={sendMessage}>
+        <IoSend />
+      </button>
+  }
+</div> */}
+
+<div className="flex items-center mt-4 p-2 w-full">
+  <div className="bg-white py-[11px] px-3 rounded-l-full text-xl">
+    <MdOutlineEmojiEmotions />
+  </div>
+  <input
+    type="text"
+    value={newMessage}
+    onChange={MessageHandler}
+    placeholder="Message... "
+    onKeyPress={(e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
+    }}
+    className="flex-grow border px-4 py-[10px] focus:outline-none focus:border-transparent border-transparent"
+  />
+  <div className="bg-white flex gap-4 py-[12px] px-3 rounded-r-full text-xl">
+    <FaCamera className="text-lg" />
+    <GoPaperclip className="text-lg" />
+    <RiMoneyRupeeCircleFill className="text-lg" />
+  </div>
+  {ChatOrMic ? (
+    <button
+      className="ml-2 bg-[#035F52] text-white p-2 rounded-full send-button"
+      type="submit"
+    >
+      <FaMicrophone className="text-lg" />
+    </button>
+  ) : (
+    <button
+      className="ml-2 bg-[#035F52] text-white p-2 rounded-full send-button"
+      type="submit"
+      onClick={sendMessage}
+    >
+      <IoSend className="text-lg" />
+    </button>
+  )}
+</div>
+
       </div>
     </div>
   );
