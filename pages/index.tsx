@@ -1,4 +1,4 @@
-import Join from "@/component/join/join";
+import Join from "@/component/join/joinWhatsapp";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });

@@ -1,4 +1,4 @@
-import Join from '@/component/join/join'
+import Join from '@/component/join/joinWhatsapp'
 import React from 'react'
 
 function index() {

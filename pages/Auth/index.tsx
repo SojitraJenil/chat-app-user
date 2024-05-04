@@ -1,4 +1,4 @@
-import Auth1 from '@/component/auth/Auth1'
+import Auth1 from '@/component/auth/AuthWhatsapp'
 import React from 'react'
 
 function index() {
