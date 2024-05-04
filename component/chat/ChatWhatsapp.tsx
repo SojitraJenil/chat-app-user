@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaMicrophone, FaUserCircle } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
 import { IoSend } from "react-icons/io5";
-import { MdCall, MdOutlineEmojiEmotions } from "react-icons/md";
+import { MdArrowBack, MdCall, MdOutlineEmojiEmotions } from "react-icons/md";
 import { IoMdRefresh, IoMdVideocam } from "react-icons/io";
 import { GrLogout } from "react-icons/gr";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
@@ -48,7 +48,7 @@ function Chat() {
 
   useEffect(() => {
     if (!authToken) {
-      router.push("/Auth");
+      router.push("/authentication");
     }
   }, [authToken, router]);
 
@@ -270,6 +270,7 @@ function Chat() {
                         className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
                           }`}
                       >
+                        <MdArrowBack />
                         <FaUserCircle className="w-5 h-8 mr-2" />
                       </div>
 
