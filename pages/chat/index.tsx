@@ -1,4 +1,4 @@
-import Chat from '@/component/chat/chat'
+import Chat from '@/component/chat/Chat'
 import React from 'react'
 
 function index() {
