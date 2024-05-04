@@ -1,4 +1,4 @@
-import  Auth  from '@/component/auth/Auth'
+import Auth from '@/component/auth/Auth'
 import React from 'react'
 
 function index() {
