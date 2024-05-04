@@ -1,4 +1,4 @@
-import Users from '@/component/users/Users'
+import Users from '../../component/users/Users'
 import React from 'react'
 
 function index() {

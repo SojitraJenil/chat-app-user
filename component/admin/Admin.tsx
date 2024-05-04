@@ -1,4 +1,4 @@
-import { db } from '@/firebase';
+import { db } from '../../firebase';
 import React, { useState, useEffect } from 'react';
 import { collection, query, getDocs, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import moment from 'moment';
