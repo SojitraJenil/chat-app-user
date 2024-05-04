@@ -48,7 +48,7 @@ function Chat() {
 
   useEffect(() => {
     if (!authToken) {
-      router.push("/auth");
+      router.push("/Auth");
     }
   }, [authToken, router]);
 
