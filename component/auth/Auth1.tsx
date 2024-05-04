@@ -8,7 +8,7 @@ import Cookies from "universal-cookie";
 import dynamic from "next/dynamic";
 
 
-function Authentiocation() {
+function Auth1() {
 
   const cookies = new Cookies();
   const router = useRouter();
@@ -60,4 +60,4 @@ function Authentiocation() {
 
   );
 }
-export default dynamic(() => Promise.resolve(Authentiocation), { ssr: false });
+export default dynamic(() => Promise.resolve(Auth1), { ssr: false });

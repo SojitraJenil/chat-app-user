@@ -1,4 +1,4 @@
-import Admin from '../../component/admin/Admin';
+import Admin from '@/component/admin/Admin';
 import React from 'react';
 
 const Index: React.FC = () => {

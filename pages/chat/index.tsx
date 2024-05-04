@@ -1,5 +1,5 @@
+import Chat from '@/component/chat/Chat'
 import React from 'react'
-import Chat from '../../component/chat/Chat'
 
 function index() {
   return (

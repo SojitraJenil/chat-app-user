@@ -1,10 +1,10 @@
-import Authentication from '../../component/authentication/Authentication'
+import Auth1 from '@/component/auth/Auth1'
 import React from 'react'
 
 function index() {
   return (
     <div>
-      <Authentication/>
+      <Auth1/>
     </div>
   )
 }
