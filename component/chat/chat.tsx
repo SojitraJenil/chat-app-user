@@ -48,7 +48,7 @@ function Chat() {
 
   useEffect(() => {
     if (!authToken) {
-      router.push("/Auth");
+      router.push("/auth");
     }
   }, [authToken, router]);
 
@@ -195,150 +195,155 @@ function Chat() {
   const containRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="container mx-auto h-screen max-w-md text-sm">
-      <div
-        className="rounded-lg shadow-lg shadow-black mb-4 bg-cover	 h-screen flex flex-col"
-        style={{
-          backgroundImage:
-            'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
-        }}
-      >
-        <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky   0 z-50 sm:px-4 lg:px-8 xl:px-2 ">
 
-          <div className="flex ps-3 w-[50%]">
-            <FaUserCircle className="w-8 h-8 mr-2 mt-2 " />
-            <div className="font-semibold ps-2">
-              <p className="text-lg">{user}</p>
-              <p className="text-sm">Room -:{room}</p>
-            </div>
-          </div>
+    <div >
 
-          <div className="flex flex-wrap gap-3 pe-2 items-center w-[50%] justify-end">
-            <IoMdVideocam className="text-2xl" />
-            <MdCall className="text-2xl" />
-            <GoDownload onClick={handleInstallButtonClick} className="text-2xl fw-bold" />
-            <IoMdRefresh
-              onClick={() => window.location.reload()}
-              className="text-2xl"
-            />
-            <GrLogout onClick={logout} className="text-xl " />
-          </div>
-        </div>
+      <div className="container mx-auto h-screen max-w-md text-sm">
         <div
-          className="flex-grow overflow-y-auto"
-          ref={containRef}
+          className="rounded-lg shadow-lg shadow-black mb-4 bg-cover	 h-screen flex flex-col"
           style={{
-            overflowY: "scroll",
-            scrollbarWidth: "none",
-            scrollbarColor: "transparent transparent",
+            backgroundImage:
+              'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
           }}
         >
-          <div className="space-y-4 px-2">
-            {Loader ? (
-              <div className="flex justify-center align-bottom mt-8">
-                <RotatingLines
-                  visible={true}
-                  width={"40"}
-                  strokeWidth="5"
-                  animationDuration="0.75"
-                  ariaLabel="rotating-lines-loading"
-                />
+          <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky   0 z-50 sm:px-4 lg:px-8 xl:px-2 ">
+
+            <div className="flex ps-3 w-[50%]">
+              <FaUserCircle className="w-8 h-8 mr-2 mt-2 " />
+              <div className="font-semibold ps-2">
+                <p className="text-lg">{user}</p>
+                <p className="text-sm">Room -:{room}</p>
               </div>
-            ) : (
-              messages.map((data, index) => (
-                <div key={index}>
-                  {(index === 0 ||
-                    formatDateTime(data.createdAt).formattedDate !==
-                    formatDateTime(messages[index - 1].createdAt)
-                      .formattedDate) && (
-                      <center>
-                        <div className="mb-2">
-                          <span className="px-4 bg-white h-auto rounded-md">
-                            {formatDateTime(data.createdAt).formattedDate}{" "}
-                          </span>
-                        </div>
-                      </center>
-                    )}
-                  <div
-                    className={`message_content flex ${user === data.user ? "justify-end" : "justify-start"
-                      }`}
-                  >
+            </div>
+
+            <div className="flex flex-wrap gap-3 pe-2 items-center w-[50%] justify-end">
+              <IoMdVideocam className="text-2xl" />
+              <MdCall className="text-2xl" />
+              <GoDownload onClick={handleInstallButtonClick} className="text-2xl fw-bold" />
+              <IoMdRefresh
+                onClick={() => window.location.reload()}
+                className="text-2xl"
+              />
+              <GrLogout onClick={logout} className="text-xl " />
+            </div>
+          </div>
+          <div
+            className="flex-grow overflow-y-auto"
+            ref={containRef}
+            style={{
+              overflowY: "scroll",
+              scrollbarWidth: "none",
+              scrollbarColor: "transparent transparent",
+            }}
+          >
+            <div className="space-y-4 px-2">
+              {Loader ? (
+                <div className="flex justify-center align-bottom mt-8">
+                  <RotatingLines
+                    visible={true}
+                    width={"40"}
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    ariaLabel="rotating-lines-loading"
+                  />
+                </div>
+              ) : (
+                messages.map((data, index) => (
+                  <div key={index}>
+                    {(index === 0 ||
+                      formatDateTime(data.createdAt).formattedDate !==
+                      formatDateTime(messages[index - 1].createdAt)
+                        .formattedDate) && (
+                        <center>
+                          <div className="mb-2">
+                            <span className="px-4 bg-white h-auto rounded-md">
+                              {formatDateTime(data.createdAt).formattedDate}{" "}
+                            </span>
+                          </div>
+                        </center>
+                      )}
                     <div
-                      className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
+                      className={`message_content flex ${user === data.user ? "justify-end" : "justify-start"
                         }`}
                     >
-                      <FaUserCircle className="w-5 h-8 mr-2" />
-                    </div>
+                      <div
+                        className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
+                          }`}
+                      >
+                        <FaUserCircle className="w-5 h-8 mr-2" />
+                      </div>
 
-                    <div
-                      className={`${user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
-                        } text-dark rounded-lg p-2`}
-                      style={{ maxWidth: "300px" }}
-                    >
-                      <div className="justify-between max-w-[300px]">
-                        <span
-                          className={`font-bold ${user === data.user ? "hidden" : "block"
-                            }`}
-                        >
-                          {data.user}-:
-                        </span>
-                        <span
-                          className="whitespace-normal "
-                          style={{ wordWrap: "break-word" }}
-                        >
-                          {data.text}
-                        </span>
-                        <div style={{ fontSize: "10px" }}>
-                          <span>{formatDateTime(data.createdAt).formattedTime}</span>
+                      <div
+                        className={`${user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
+                          } text-dark rounded-lg p-2`}
+                        style={{ maxWidth: "300px" }}
+                      >
+                        <div className="justify-between max-w-[300px]">
+                          <span
+                            className={`font-bold ${user === data.user ? "hidden" : "block"
+                              }`}
+                          >
+                            {data.user}-:
+                          </span>
+                          <span
+                            className="whitespace-normal "
+                            style={{ wordWrap: "break-word" }}
+                          >
+                            {data.text}
+                          </span>
+                          <div style={{ fontSize: "10px" }}>
+                            <span>{formatDateTime(data.createdAt).formattedTime}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center mt-4 p-2 w-full ">
-          <div className="bg-white py-[11px] ps-3 rounded-l-full text-2xl">
-            <MdOutlineEmojiEmotions />
+          <div className="flex items-center mt-4 p-2 w-full ">
+            <div className="bg-white py-[11px] ps-3 rounded-l-full text-2xl">
+              <MdOutlineEmojiEmotions />
+            </div>
+            <input
+              type="text"
+              value={newMessage}
+              onChange={MessageHandler}
+              placeholder="Message... "
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  sendMessage();
+                }
+              }}
+              className=" w-[20%] flex-grow border  px-4 py-3 focus:outline-none focus:border-transparent  border-transparent"
+            />
+            <div className="bg-white flex gap-4 py-[11px] pe-3 rounded-r-full text-2xl">
+              <FaCamera className="text-xl" />
+              <GoPaperclip />
+              <RiMoneyRupeeCircleFill />
+            </div>
+            {
+              ChatOrMic ?
+                <button
+                  className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
+                  type="submit">
+                  <FaMicrophone />
+                </button> :
+                <button
+                  className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
+                  type="submit" onClick={sendMessage}>
+                  <IoSend />
+                </button>
+            }
           </div>
-          <input
-            type="text"
-            value={newMessage}
-            onChange={MessageHandler}
-            placeholder="Message... "
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                sendMessage();
-              }
-            }}
-            className=" w-[20%] flex-grow border  px-4 py-3 focus:outline-none focus:border-transparent  border-transparent"
-          />
-          <div className="bg-white flex gap-4 py-[11px] pe-3 rounded-r-full text-2xl">
-            <FaCamera className="text-xl" />
-            <GoPaperclip />
-            <RiMoneyRupeeCircleFill />
-          </div>
-          {
-            ChatOrMic ?
-              <button
-                className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-                type="submit">
-                <FaMicrophone />
-              </button> :
-              <button
-                className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-                type="submit" onClick={sendMessage}>
-                <IoSend />
-              </button>
-          }
-        </div>
 
+        </div>
       </div>
     </div>
+
   );
 }
 

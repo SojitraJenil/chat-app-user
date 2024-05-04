@@ -22,7 +22,7 @@ function Join() {
   
   useEffect(() => { 
     if (!authToken) {
-      router.push("/Auth");
+      router.push("/auth");
     }
   }, [authToken, router]);
 
