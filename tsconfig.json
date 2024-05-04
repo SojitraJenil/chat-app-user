@@ -19,6 +19,7 @@
     "isolatedModules": true,
     "importHelpers": true,
     "jsx": "preserve",
+    "incremental": true
     // "baseUrl": "src"
   },
   "include": [
@@ -28,5 +29,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }
