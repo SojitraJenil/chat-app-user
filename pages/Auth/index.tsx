@@ -1,10 +1,10 @@
-import Auth from '../../component/auth/Auth'
+import Authentication from '../../component/authentication/Authentication'
 import React from 'react'
 
 function index() {
   return (
     <div>
-      <Auth/>
+      <Authentication/>
     </div>
   )
 }

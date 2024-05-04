@@ -1,4 +1,4 @@
-import { db } from '@/firebase';
+import { db } from '../../firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { Message } from 'postcss';
 import React, { useEffect, useState } from 'react';
