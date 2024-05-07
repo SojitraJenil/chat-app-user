@@ -29,7 +29,7 @@ function Auth1() {
       // Set the authentication token in a cookie with an expiry of 7 days
       const cookies = new Cookies();
       const expiryDate = new Date();
-      expiryDate.setDate(expiryDate.getDate() + 7); // Add 7 days to the current date
+      expiryDate.setDate(expiryDate.getDate() + 15); // Add 7 days to the current date
       cookies.set("auth-token", result.user.refreshToken, { expires: expiryDate });
   
       router.push("/join");
