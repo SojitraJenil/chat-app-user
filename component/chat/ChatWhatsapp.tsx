@@ -76,7 +76,8 @@ function Chat() {
         .sort((a: any, b: any) => a.createdAt - b.createdAt);
       setLoader(false);
       setMessages(sortedMessages);
-      setLoader(false);
+      console.log(sortedMessages);
+            setLoader(false);
     });
 
     return () => unsubscribe();
@@ -192,6 +193,10 @@ function Chat() {
     }
   };
 
+  const BackHandler =()=>{
+    router.push('/users')
+  }
+
   const containRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -208,8 +213,9 @@ function Chat() {
         >
           <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky   0 z-50 sm:px-4 lg:px-8 xl:px-2 ">
 
-            <div className="flex ps-3 w-[50%]">
-              <FaUserCircle className="w-8 h-8 mr-2 mt-2 " />
+            <div className="flex ps-1 w-[50%]">
+              <MdArrowBack className="w-6 h-6 mr-1 mt-3" onClick={BackHandler} />
+              <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
               <div className="font-semibold ps-2">
                 <p className="text-lg">{user}</p>
                 <p className="text-sm">Room -:{room}</p>
@@ -270,7 +276,6 @@ function Chat() {
                         className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
                           }`}
                       >
-                        <MdArrowBack />
                         <FaUserCircle className="w-5 h-8 mr-2" />
                       </div>
 

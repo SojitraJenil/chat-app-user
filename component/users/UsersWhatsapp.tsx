@@ -1,5 +1,6 @@
 import { db } from '../../firebase';
 import { collection, getDocs, query } from 'firebase/firestore';
+import { useRouter } from 'next/router';
 import { Message } from 'postcss';
 import React, { useEffect, useState } from 'react';
 import { CiMenuKebab } from 'react-icons/ci';
@@ -12,7 +13,7 @@ const WhatsAppUI = () => {
     const [filteredMessages, setFilteredMessages] = useState<Message[]>([]); // State for filtered messages
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [Loader, setLoader] = useState(true);
-
+    const router = useRouter()
 
     useEffect(() => {
         async function fetchData() {
@@ -50,35 +51,29 @@ const WhatsAppUI = () => {
         setSearchQuery(e.target.value);
     };
 
+    const HandleUser = () => {
+        router.push('/chat')
+    }
+
     return (
         <>
-            <div className="bg-green-500">
-                <div className="w-full h-screen flex bg-gray-50 container mx-auto max-w-md text-sm">
-                    <div className="bg-gray-200 overflow-y-auto  border-r border-gray-800 relative block" style={{
+            <div className="bg-white border ">
+                <div className="w-full h-screen flex bg-gray-50 border-black container mx-auto max-w-md text-sm ">
+                    <div className="bg-gray-200 overflow-y-auto rounded-lg shadow-lg shadow-black mb-4 bg-cover h-screen border border-gray-800 relative block" style={{
                         overflowY: "scroll",
                         scrollbarWidth: "none",
                         scrollbarColor: "transparent transparent",
                         width: "40rem"
                     }}>
-                        <div className="aside-header sticky top-0 right-0 left-0 z-40 text-gray-400 bg-white">
-                            <div className="flex items-center px-4 py-2 border-b-2 border ">
-                                <div className="flex-1 text-green-400">
+                        <div className="aside-header sticky top-0 right-0 left-0 z-40 text-gray-400 bg-[#035F52]">
+                            <div className="flex items-center px-4 py-3 border-b-2 border ">
+                                <div className="flex-1 text-green-100">
                                     <p className='text-2xl font-sans font-semibold'>WhatsApp</p>
                                 </div>
-                                <div className="flex-1 text-right text-black">
-                                    <FaCamera className="inline w-6 h-6 mr-4 cursor-pointer" />
-                                    <IoSearchSharp className="inline w-6 h-6 mr-3 cursor-pointer" />
-                                    <CiMenuKebab className="inline w-6 h-6 cursor-pointer" />
-                                </div>
-                            </div>
-                            <div className="search-bar px-4 py-3 w-full bg-white">
-                                <div className="relative text-white">
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                                        <button type="submit" className="p-1 focus:outline-none focus:shadow-outline">
-                                            <IoSearchSharp className='text-black text-lg' />
-                                        </button>
-                                    </span>
-                                    <input type="search" name="q" className="w-full py-2 text-sm text-black lite rounded-full pl-10 bg-gray-100" placeholder="Search or start new chat" onChange={handleSearch} />
+                                <div className="text-white flex gap-4 py-2 pe-3 rounded-r-full text-2xl">
+                                    <FaCamera />
+                                    <IoSearchSharp />
+                                    <CiMenuKebab />
                                 </div>
                             </div>
                         </div>
@@ -121,7 +116,7 @@ const WhatsAppUI = () => {
                                                         </span>
                                                     </div>
                                                 )}
-                                                <div className="flex items-center px-4 py-3 border-b-2  bg-amber-50" >
+                                                <div className="flex items-center px-4 py-3 border-b-2  bg-gray-50" onClick={HandleUser} >
                                                     <div className="text-black">
                                                         <FaUserCircle className="w-10 h-10 mr-2 " />
                                                     </div>

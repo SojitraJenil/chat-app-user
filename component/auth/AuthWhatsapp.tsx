@@ -25,12 +25,19 @@ function Auth1() {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      cookies.set("auth-token", result.user.refreshToken);
+      
+      // Set the authentication token in a cookie with an expiry of 7 days
+      const cookies = new Cookies();
+      const expiryDate = new Date();
+      expiryDate.setDate(expiryDate.getDate() + 7); // Add 7 days to the current date
+      cookies.set("auth-token", result.user.refreshToken, { expires: expiryDate });
+  
       router.push("/join");
     } catch (error) {
       console.error(error);
     }
   };
+  
   
 
   return (
