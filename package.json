@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/react-leaflet": "^3.0.0",
     "axios": "^1.6.8",
+    "emoji-picker-react": "^4.9.2",
     "firebase": "^10.11.1",
     "moment-timezone": "^0.5.45",
     "next": "14.2.3",

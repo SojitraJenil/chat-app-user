@@ -10,11 +10,18 @@ import { GoDownload, GoPaperclip } from "react-icons/go";
 import { FaCamera } from "react-icons/fa";
 import moment from "moment-timezone";
 import Swal from "sweetalert2";
-import { addDoc, collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { auth, db } from "../../firebase";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 import dynamic from "next/dynamic";
+import EmojiPicker from "emoji-picker-react";
 
 function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -24,11 +31,12 @@ function Chat() {
   const [ChatOrMic, setChatOrMic] = useState(true);
   const [user, setUser] = useState(""); // Initialize user state variable
   const messagesRef = collection(db, "Message");
-  const router = useRouter()
+  const router = useRouter();
   const cookies = new Cookies();
   const authToken = cookies.get("auth-token");
   const uniqueId = generateUniqueId();
   var room = getCookie("room");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event: any) => {
@@ -54,7 +62,7 @@ function Chat() {
 
   useEffect(() => {
     if (auth.currentUser) {
-      setUser(auth.currentUser.displayName || '');
+      setUser(auth.currentUser.displayName || "");
     }
   }, [auth.currentUser]);
 
@@ -77,16 +85,15 @@ function Chat() {
       setLoader(false);
       setMessages(sortedMessages);
       console.log(sortedMessages);
-            setLoader(false);
+      setLoader(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-
   function getCookie(name: any) {
     // Check if document object is available (specific to browser environments)
-    if (typeof document !== 'undefined') {
+    if (typeof document !== "undefined") {
       var cookies = document.cookie.split(";");
       for (var i = 0; i < cookies.length; i++) {
         var cookie = cookies[i].trim();
@@ -113,7 +120,6 @@ function Chat() {
 
     return { formattedDate, formattedTime };
   };
-
 
   function generateUniqueId() {
     const timestamp = new Date().getTime(); // Get current timestamp
@@ -193,16 +199,22 @@ function Chat() {
     }
   };
 
-  const BackHandler =()=>{
-    router.push('/users')
-  }
+  const BackHandler = () => {
+    router.push("/users");
+  };
 
   const containRef = useRef<HTMLDivElement>(null);
 
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const handleEmojiClick = (emojiObject: any) => {
+    setNewMessage(newMessage + emojiObject.emoji);
+  };
+
   return (
-
-    <div >
-
+    <div>
       <div className="container mx-auto h-screen max-w-md text-sm">
         <div
           className="rounded-lg shadow-lg shadow-black mb-4 bg-cover	 h-screen flex flex-col"
@@ -212,20 +224,25 @@ function Chat() {
           }}
         >
           <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky   0 z-50 sm:px-4 lg:px-8 xl:px-2 ">
-
             <div className="flex ps-1 w-[50%]">
-              <MdArrowBack className="w-6 h-6 mr-1 mt-3" onClick={BackHandler} />
+              <MdArrowBack
+                className="w-6 h-6 mr-1 mt-3"
+                onClick={BackHandler}
+              />
               <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
               <div className="font-semibold ps-2">
                 <p className="text-lg">{user}</p>
-                <p className="text-sm">Room -:{room}</p>
+                <p className="text-sm">Room -: {room}</p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-3 pe-2 items-center w-[50%] justify-end">
+            <div className="flex flex-wrap gap-3 pe-2 items-center w-[50%] justify-end cursor-pointer">
               <IoMdVideocam className="text-2xl" />
               <MdCall className="text-2xl" />
-              <GoDownload onClick={handleInstallButtonClick} className="text-2xl fw-bold" />
+              <GoDownload
+                onClick={handleInstallButtonClick}
+                className="text-2xl fw-bold "
+              />
               <IoMdRefresh
                 onClick={() => window.location.reload()}
                 className="text-2xl"
@@ -258,36 +275,40 @@ function Chat() {
                   <div key={index}>
                     {(index === 0 ||
                       formatDateTime(data.createdAt).formattedDate !==
-                      formatDateTime(messages[index - 1].createdAt)
-                        .formattedDate) && (
-                        <center>
-                          <div className="mb-2">
-                            <span className="px-4 bg-white h-auto rounded-md">
-                              {formatDateTime(data.createdAt).formattedDate}{" "}
-                            </span>
-                          </div>
-                        </center>
-                      )}
+                        formatDateTime(messages[index - 1].createdAt)
+                          .formattedDate) && (
+                      <center>
+                        <div className="mb-2">
+                          <span className="px-4 bg-white h-auto rounded-md">
+                            {formatDateTime(data.createdAt).formattedDate}{" "}
+                          </span>
+                        </div>
+                      </center>
+                    )}
                     <div
-                      className={`message_content flex ${user === data.user ? "justify-end" : "justify-start"
-                        }`}
+                      className={`message_content flex ${
+                        user === data.user ? "justify-end" : "justify-start"
+                      }`}
                     >
                       <div
-                        className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
-                          }`}
+                        className={`message_content flex ${
+                          user === data.user ? "hidden" : "justify-start"
+                        }`}
                       >
                         <FaUserCircle className="w-5 h-8 mr-2" />
                       </div>
 
                       <div
-                        className={`${user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
-                          } text-dark rounded-lg p-2`}
+                        className={`${
+                          user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
+                        } text-dark rounded-lg p-2`}
                         style={{ maxWidth: "300px" }}
                       >
                         <div className="justify-between max-w-[300px]">
                           <span
-                            className={`font-bold ${user === data.user ? "hidden" : "block"
-                              }`}
+                            className={`font-bold ${
+                              user === data.user ? "hidden" : "block"
+                            }`}
                           >
                             {data.user}-:
                           </span>
@@ -298,7 +319,9 @@ function Chat() {
                             {data.text}
                           </span>
                           <div style={{ fontSize: "10px" }}>
-                            <span>{formatDateTime(data.createdAt).formattedTime}</span>
+                            <span>
+                              {formatDateTime(data.createdAt).formattedTime}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -310,8 +333,21 @@ function Chat() {
           </div>
 
           <div className="flex items-center mt-4 p-2 w-full ">
-            <div className="bg-white py-[11px] ps-3 rounded-l-full text-2xl">
-              <MdOutlineEmojiEmotions />
+            <div className="relative">
+              <div
+                className="bg-white py-[11px] ps-3 rounded-l-full text-2xl cursor-pointer"
+                onClick={toggleEmojiPicker}
+              >
+                <MdOutlineEmojiEmotions />
+              </div>
+              <div className="absolute bottom-12">
+                {showEmojiPicker && (
+                  <EmojiPicker
+                    style={{ width: "148%" }}
+                    onEmojiClick={handleEmojiClick}
+                  />
+                )}
+              </div>
             </div>
             <input
               type="text"
@@ -331,25 +367,26 @@ function Chat() {
               <GoPaperclip />
               <RiMoneyRupeeCircleFill />
             </div>
-            {
-              ChatOrMic ?
-                <button
-                  className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-                  type="submit">
-                  <FaMicrophone />
-                </button> :
-                <button
-                  className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-                  type="submit" onClick={sendMessage}>
-                  <IoSend />
-                </button>
-            }
+            {ChatOrMic ? (
+              <button
+                className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
+                type="submit"
+              >
+                <FaMicrophone />
+              </button>
+            ) : (
+              <button
+                className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
+                type="submit"
+                onClick={sendMessage}
+              >
+                <IoSend />
+              </button>
+            )}
           </div>
-
         </div>
       </div>
     </div>
-
   );
 }
 

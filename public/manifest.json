@@ -1,31 +1,31 @@
 {
-    "theme_color": "rgb(255, 255, 255)",
-    "display": "standalone",
-    "background_color": "rgb(255, 255, 255)",
-    "scope": "/",
-    "start_url": "/",
-    "name": "Chat-App",
-    "short_name": "Chat-App",
-    "icons": [
-      {
-        "src": "/logoFire.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      },
-      {
-        "src": "/logoFire.png",
-        "sizes": "256x256",
-        "type": "image/png"
-      },
-      {
-        "src": "/logoFire.png",
-        "sizes": "384x384",
-        "type": "image/png"
-      },
-      {
-        "src": "/logoFire.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ]
-  }
+  "theme_color": "rgb(255, 255, 255)",
+  "display": "standalone",
+  "background_color": "rgb(255, 255, 255)",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Chat-App",
+  "short_name": "Chat-App",
+  "icons": [
+    {
+      "src": "/Chat-Logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Chat-Logo.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/Chat-Logo.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/Chat-Logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
