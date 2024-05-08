@@ -249,10 +249,10 @@ function Chat() {
               <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
               <div className="font-semibold ps-2">
                 <p className="text-lg">{user}</p>
-                {!typing ? (
+                {typing ? (
                   <div className="message_content flex justify-start">
                     <div className="justify-between w-[]">
-                      <span className="font-bold text-[13px] w-auto">{user} typing...........</span>
+                      <span className="font-bold text-[13px] w-auto">{user} typing...</span>
                     </div>
                   </div>
                 ) : (
