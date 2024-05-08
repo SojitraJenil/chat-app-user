@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";  
+import { getFirestore } from "firebase/firestore";
 import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -14,16 +14,16 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
-export const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
 
-let messaging;
+let messaging = null; // Initialize messaging variable to null by default
+
+// Check if service worker is supported and available in navigator
 if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
-    messaging = getMessaging(app);
-} else {
-    messaging = null;
+    messaging = getMessaging(app); // If service worker is supported, initialize messaging
 }
 
-export { messaging };
+export { app, auth, db, provider, messaging };

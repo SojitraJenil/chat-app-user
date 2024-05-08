@@ -10,8 +10,7 @@ function Join() {
   const authToken = cookies.get("auth-token");
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
-  const router = useRouter();
-
+  const router = useRouter()
   useEffect(() => {
     const roomFromCookie = cookies.get("room");
     if (roomFromCookie) {

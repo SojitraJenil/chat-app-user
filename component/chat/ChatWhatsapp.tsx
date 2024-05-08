@@ -27,6 +27,8 @@ function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [newMessage, setNewMessage] = useState("");
+  const [typing, setTyping] = useState(false); // Track user typing
+  const [typingMessage, setTypingMessage] = useState(""); // Track typing message
   const [Loader, setLoader] = useState(true);
   const [ChatOrMic, setChatOrMic] = useState(true);
   const [user, setUser] = useState(""); // Initialize user state variable
@@ -185,8 +187,23 @@ function Chat() {
       setChatOrMic(true);
     } else {
       setChatOrMic(false);
+      if (message) {
+        setTyping(true);
+      }
     }
   };
+
+  // Function to handle user typing timeout
+  const handleTypingTimeout = () => {
+    setTyping(false);
+    setTypingMessage("hello");
+  };
+
+  useEffect(() => {
+    // Set a timeout to clear typing status
+    const typingTimeout = setTimeout(handleTypingTimeout, 700);
+    return () => clearTimeout(typingTimeout);
+  }, [newMessage]);
 
   const handleInstallButtonClick = async () => {
     if (installPrompt) {
@@ -232,12 +249,20 @@ function Chat() {
               <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
               <div className="font-semibold ps-2">
                 <p className="text-lg">{user}</p>
-                <p className="text-sm">Room -: {room}</p>
+                {!typing ? (
+                  <div className="message_content flex justify-start">
+                    <div className="justify-between w-[]">
+                      <span className="font-bold text-[13px] w-auto">{user} typing...........</span>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm">Room-: {room}</p>
+                )}
               </div>
             </div>
 
             <div className="flex flex-wrap gap-3 pe-2 items-center w-[50%] justify-end cursor-pointer">
-              <IoMdVideocam className="text-2xl" />
+              {/* <IoMdVideocam className="text-2xl" /> */}
               <MdCall className="text-2xl" />
               <GoDownload
                 onClick={handleInstallButtonClick}
@@ -275,40 +300,36 @@ function Chat() {
                   <div key={index}>
                     {(index === 0 ||
                       formatDateTime(data.createdAt).formattedDate !==
-                        formatDateTime(messages[index - 1].createdAt)
-                          .formattedDate) && (
-                      <center>
-                        <div className="mb-2">
-                          <span className="px-4 bg-white h-auto rounded-md">
-                            {formatDateTime(data.createdAt).formattedDate}{" "}
-                          </span>
-                        </div>
-                      </center>
-                    )}
+                      formatDateTime(messages[index - 1].createdAt)
+                        .formattedDate) && (
+                        <center>
+                          <div className="mb-2">
+                            <span className="px-4 bg-white h-auto rounded-md">
+                              {formatDateTime(data.createdAt).formattedDate}{" "}
+                            </span>
+                          </div>
+                        </center>
+                      )}
                     <div
-                      className={`message_content flex ${
-                        user === data.user ? "justify-end" : "justify-start"
-                      }`}
+                      className={`message_content flex ${user === data.user ? "justify-end" : "justify-start"
+                        }`}
                     >
                       <div
-                        className={`message_content flex ${
-                          user === data.user ? "hidden" : "justify-start"
-                        }`}
+                        className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
+                          }`}
                       >
                         <FaUserCircle className="w-5 h-8 mr-2" />
                       </div>
 
                       <div
-                        className={`${
-                          user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
-                        } text-dark rounded-lg p-2`}
+                        className={`${user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
+                          } text-dark rounded-lg p-2`}
                         style={{ maxWidth: "300px" }}
                       >
                         <div className="justify-between max-w-[300px]">
                           <span
-                            className={`font-bold ${
-                              user === data.user ? "hidden" : "block"
-                            }`}
+                            className={`font-bold ${user === data.user ? "hidden" : "block"
+                              }`}
                           >
                             {data.user}-:
                           </span>
