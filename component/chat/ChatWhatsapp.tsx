@@ -217,7 +217,7 @@ function Chat() {
     <div>
       <div className="container mx-auto h-screen max-w-md text-sm">
         <div
-          className="rounded-lg shadow-lg shadow-black mb-4 bg-cover	 h-screen flex flex-col"
+          className="rounded-lg shadow-lg shadow-black mb-4 bg-cover h-screen flex flex-col"
           style={{
             backgroundImage:
               'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
@@ -343,7 +343,7 @@ function Chat() {
               <div className="absolute bottom-12">
                 {showEmojiPicker && (
                   <EmojiPicker
-                    style={{ width: "148%" }}
+                    style={{ width: "100%" }}
                     onEmojiClick={handleEmojiClick}
                   />
                 )}

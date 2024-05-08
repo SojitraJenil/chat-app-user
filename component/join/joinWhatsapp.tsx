@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
 import dynamic from "next/dynamic";
@@ -10,8 +10,8 @@ function Join() {
   const authToken = cookies.get("auth-token");
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
-  const router = useRouter()
-  
+  const router = useRouter();
+
   useEffect(() => {
     const roomFromCookie = cookies.get("room");
     if (roomFromCookie) {
@@ -19,13 +19,11 @@ function Join() {
     }
   }, [cookies, router]);
 
-  
-  useEffect(() => { 
+  useEffect(() => {
     if (!authToken) {
       router.push("/authentication");
     }
   }, [authToken, router]);
-
 
   const JoinRoomHandler = () => {
     if (!username || !room) {
@@ -33,36 +31,44 @@ function Join() {
         text: "Enter The UserName and RoomID...!",
         showClass: {
           popup: `
-    animate__animated
-    animate__fadeInUp
-    animate__faster
-  `,
+            animate__animated
+            animate__fadeInUp
+            animate__faster
+          `,
         },
         hideClass: {
           popup: `
-    animate__animated
-    animate__fadeOutDown
-    animate__faster
-  `,
+            animate__animated
+            animate__fadeOutDown
+            animate__faster
+          `,
         },
       });
       return;
     }
     setCookie("room", room, 7);
-    router.push(`/chat`); 
-};
+    router.push(`/chat`);
+  };
 
-  function setCookie(name:any, value:any, days:any) {
+  function setCookie(name: any, value: any, days: any) {
     const expires = new Date();
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
     document.cookie = name + "=" + value + ";expires=" + expires.toUTCString();
   }
 
-
   return (
-    <div>
-      <div className="flex items-center justify-center h-screen bg-gray-100">
-        <div className="max-w-md w-full px-6 py-8 bg-white shadow-md overflow-hidden sm:rounded-lg">
+    <div className="relative">
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute z-0 w-full h-screen min-w-full min-h-screen max-w-none"
+        style={{ objectFit: "cover" }}
+      >
+        <source src="halloween.mp4" type="video/mp4" />
+      </video>
+      <div className="flex items-center justify-center h-screen relative z-30 ">
+        <div className="max-w-md w-full px-6 py-8 bg-[#b5241e] shadow-md overflow-hidden sm:rounded-lg opacity-80">
           <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
             Login{" "}
           </h2>
