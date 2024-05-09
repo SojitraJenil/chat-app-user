@@ -182,10 +182,20 @@ function Chat() {
     });
   };
 
+  const removeEmojis = (text:any) => {
+    // Regular expression to match emojis
+    const emojiRegex = /[\u{1F600}-\u{1F64F}]/gu;
+    // Replace emojis with an empty string
+    return text.replace(emojiRegex, '');
+  };
+  
   const MessageHandler = (event: any) => {
     const message = event.target.value;
+    const messageWithoutEmojis = removeEmojis(message);
+  
+    console.log(messageWithoutEmojis.length);
     setNewMessage(message);
-    if (message.trim().length === 0) {
+    if (messageWithoutEmojis.trim().length === 0) {
       setChatOrMic(true);
     } else {
       setChatOrMic(false);
@@ -194,7 +204,7 @@ function Chat() {
       }
     }
   };
-
+  
   // Function to handle user typing timeout
   const handleTypingTimeout = () => {
     setTyping(false);
