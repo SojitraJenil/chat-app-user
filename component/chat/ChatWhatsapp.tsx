@@ -22,6 +22,7 @@ import Cookies from "universal-cookie";
 import dynamic from "next/dynamic";
 import EmojiPicker from "emoji-picker-react";
 import Dropdownmenu from "./Dropdownmenu";
+import App from "@/pages/_app";
 
 function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -230,8 +231,20 @@ function Chat() {
       }
     }
   };
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsKeyboardOpen(window.innerHeight !== window.outerHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
-    <div>
+    <div className={`chat-container ${isKeyboardOpen ? "keyboard-open" : ""}`}>
       <div className="container mx-auto h-screen max-w-md text-sm">
         <div
           className="rounded-lg shadow-lg shadow-black mb-4 bg-cover h-screen flex flex-col"
@@ -240,7 +253,8 @@ function Chat() {
               'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
           }}
         >
-          <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50">
+          <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50 fixed-navbar">
+
 
             <div className="flex ps-1 w-[50%]">
               <MdArrowBack
