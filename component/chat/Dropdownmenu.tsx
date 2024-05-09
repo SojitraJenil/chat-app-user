@@ -1,14 +1,14 @@
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-import { BsWater } from 'react-icons/bs';
-import { TbLogout } from 'react-icons/tb';
-import { CgProfile } from 'react-icons/cg';
-import { IoMdRefresh } from 'react-icons/io';
-import { IoSearch } from 'react-icons/io5';
-import { MdDownloadDone, MdOutlineWallpaper } from 'react-icons/md';
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { BsWater } from "react-icons/bs";
+import { TbLogout } from "react-icons/tb";
+import { CgProfile } from "react-icons/cg";
+import { IoMdRefresh } from "react-icons/io";
+import { IoSearch } from "react-icons/io5";
+import { MdDownloadDone, MdOutlineWallpaper } from "react-icons/md";
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 interface Props {
   handleInstallButtonClick: () => void;
@@ -16,26 +16,28 @@ interface Props {
   ShowSearch: () => void;
 }
 
-export default function Dropdownmenu({ShowSearch, handleInstallButtonClick, logout }: Props) {
-
+export default function Dropdownmenu({
+  ShowSearch,
+  handleInstallButtonClick,
+  logout,
+}: Props) {
   const handleClickDownload = () => {
     handleInstallButtonClick();
   };
   const handleLogout = () => {
-    logout()
+    logout();
   };
   const SetShowSearch = () => {
-    ShowSearch()
+    ShowSearch();
   };
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button>
-          <BsWater className='text-2xl text-white font-bold mt-1' />
+          <BsWater className="text-2xl text-white font-bold mt-1" />
           {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
         </Menu.Button>
       </div>
-
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
@@ -52,12 +54,15 @@ export default function Dropdownmenu({ShowSearch, handleInstallButtonClick, logo
                 <p
                   onClick={() => window.location.reload()}
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-md'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-md"
                   )}
                 >
-                  <div className="flex">  <IoMdRefresh className='text-lg me-2' />
-                    Refresh</div>
+                  <div className="flex">
+                    {" "}
+                    <IoMdRefresh className="text-lg me-2" />
+                    Refresh
+                  </div>
                 </p>
               )}
             </Menu.Item>
@@ -65,13 +70,16 @@ export default function Dropdownmenu({ShowSearch, handleInstallButtonClick, logo
               {({ active }: { active: boolean }) => (
                 <p
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-md'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-md"
                   )}
                   onClick={handleClickDownload}
                 >
-                  <div className="flex">  <MdDownloadDone className='text-lg me-2' />
-                    Download</div>
+                  <div className="flex">
+                    {" "}
+                    <MdDownloadDone className="text-lg me-2" />
+                    Download
+                  </div>
                 </p>
               )}
             </Menu.Item>
@@ -79,13 +87,16 @@ export default function Dropdownmenu({ShowSearch, handleInstallButtonClick, logo
               {({ active }: { active: boolean }) => (
                 <p
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-md'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-md"
                   )}
                   onClick={handleClickDownload}
                 >
-                  <div className="flex">  <MdOutlineWallpaper className='text-lg me-2' />
-                    Wallpaper</div>
+                  <div className="flex">
+                    {" "}
+                    <MdOutlineWallpaper className="text-lg me-2" />
+                    Wallpaper
+                  </div>
                 </p>
               )}
             </Menu.Item>
@@ -93,29 +104,33 @@ export default function Dropdownmenu({ShowSearch, handleInstallButtonClick, logo
               {({ active }: { active: boolean }) => (
                 <p
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-md'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-md"
                   )}
                 >
-                  <div className="flex">  <CgProfile className='text-lg me-2' />
-                    Profile</div>
+                  <div className="flex">
+                    {" "}
+                    <CgProfile className="text-lg me-2" />
+                    Profile
+                  </div>
                 </p>
-
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }: { active: boolean }) => (
                 <p
-                onClick={SetShowSearch}
+                  onClick={SetShowSearch}
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-md'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-md"
                   )}
                 >
-                  <div className="flex">  <IoSearch className='text-lg me-2' />
-                    Search</div>
+                  <div className="flex">
+                    {" "}
+                    <IoSearch className="text-lg me-2" />
+                    Search
+                  </div>
                 </p>
-
               )}
             </Menu.Item>
             <Menu.Item>
@@ -123,12 +138,15 @@ export default function Dropdownmenu({ShowSearch, handleInstallButtonClick, logo
                 <p
                   onClick={handleLogout}
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-md'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-md"
                   )}
                 >
-                  <div className="flex">  <TbLogout className='text-lg me-2' />
-                    Logout</div>
+                  <div className="flex">
+                    {" "}
+                    <TbLogout className="text-lg me-2" />
+                    Logout
+                  </div>
                 </p>
               )}
             </Menu.Item>
@@ -136,5 +154,5 @@ export default function Dropdownmenu({ShowSearch, handleInstallButtonClick, logo
         </Menu.Items>
       </Transition>
     </Menu>
-  )
+  );
 }
