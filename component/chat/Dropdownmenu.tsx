@@ -13,15 +13,19 @@ function classNames(...classes: string[]) {
 interface Props {
   handleInstallButtonClick: () => void;
   logout: () => void;
+  ShowSearch: () => void;
 }
 
-export default function Dropdownmenu({ handleInstallButtonClick, logout }: Props) {
+export default function Dropdownmenu({ShowSearch, handleInstallButtonClick, logout }: Props) {
 
   const handleClickDownload = () => {
     handleInstallButtonClick();
   };
   const handleLogout = () => {
     logout()
+  };
+  const SetShowSearch = () => {
+    ShowSearch()
   };
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -102,6 +106,7 @@ export default function Dropdownmenu({ handleInstallButtonClick, logout }: Props
             <Menu.Item>
               {({ active }: { active: boolean }) => (
                 <p
+                onClick={SetShowSearch}
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm'

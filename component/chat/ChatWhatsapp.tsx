@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaMicrophone, FaUserCircle } from "react-icons/fa";
+import { FaArrowLeft, FaMicrophone, FaUserCircle } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
 import { IoSend } from "react-icons/io5";
 import { MdArrowBack, MdCall, MdOutlineEmojiEmotions } from "react-icons/md";
@@ -205,13 +205,6 @@ function Chat() {
     return () => clearTimeout(typingTimeout);
   }, [newMessage]);
 
-
-  const BackHandler = () => {
-    router.push("/users");
-  };
-
-  const containRef = useRef<HTMLDivElement>(null);
-
   const toggleEmojiPicker = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
@@ -230,6 +223,14 @@ function Chat() {
       }
     }
   };
+
+  const [IsSearch, SetSearch] = useState(false)
+
+  const ShowSearch = () => {
+    SetSearch(true)
+  }
+  const containRef = useRef<HTMLDivElement>(null);
+
   return (
     <div>
       <div className="container mx-auto h-screen max-w-md text-sm">
@@ -240,34 +241,52 @@ function Chat() {
               'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
           }}
         >
-          <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50">
-            <div className="flex ps-1 w-[50%]">
-              <MdArrowBack
-                className="w-6 h-6 mr-1 mt-3"
-                onClick={BackHandler}
-              />
-              <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
-              <div className="font-semibold ps-2">
-                <p className="text-lg">{user}</p>
-                {typing ? (
-                  <div className="message_content flex justify-start">
-                    <div className="justify-between w-[]">
-                      <span className="font-bold text-[13px] w-auto">{user} typing...</span>
-                    </div>
+          {
+            IsSearch
+              ?
+              <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F51] sticky sm:px-4 lg:px-8 xl:px-2 ">
+                <div className="flex items-center">
+                  <MdArrowBack className="text-2xl me-2 my-3" onClick={() => { SetSearch(false) }} />
+                  <div className="relative w-[300px]">
+                    <input type="text"
+                      className="bg-transparent border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  block w-full pl-2 p-2.5"
+                      placeholder="Search Mockups, Logos, Design Templates..." required />
                   </div>
-                ) : (
-                  <p className="text-sm">Room-: {room}</p>
-                )}
+                  <button type="submit"
+                    className="bg-transparent border border-gray-300 border-1 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 transition duration-300 ease-in-out">Search</button>
+                </div>
               </div>
-            </div>
+              :
+              <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50">
+                <div className="flex ps-1 w-[50%]">
+                  <MdArrowBack
+                    className="text-2xl mr-1 mt-3"
+                    onClick={() => { router.push("/users") }}
+                  />
+                  <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
+                  <div className="font-semibold ps-2">
+                    <p className="text-lg">{Loader ? "loading..." : user}</p>
+                    {typing ? (
+                      <div className="message_content flex justify-start">
+                        <div className="justify-between w-[]">
+                          <span className="font-bold text-[13px] w-auto">{user} typing...</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-sm">{Loader ? "loading..." : `Room No-: ${room}`}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-4 pe-2 items-center w-[50%] justify-end cursor-pointer">
+                  <IoMdVideocam className="text-2xl" />
+                  <MdCall className="text-2xl" />
+                  <Dropdownmenu ShowSearch={ShowSearch} handleInstallButtonClick={handleInstallButtonClick} logout={logout} />
+                </div>
+              </div>
+          }
 
 
-            <div className="flex flex-wrap gap-4 pe-2 items-center w-[50%] justify-end cursor-pointer">
-              <IoMdVideocam className="text-2xl" />
-              <MdCall className="text-2xl" />
-              <Dropdownmenu handleInstallButtonClick={handleInstallButtonClick} logout={logout} />
-            </div>
-          </div>
+
           <div
             className="flex-grow overflow-y-auto"
             ref={containRef}
