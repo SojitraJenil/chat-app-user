@@ -29,7 +29,7 @@ function Chat() {
   const [newMessage, setNewMessage] = useState("");
   const [typing, setTyping] = useState(false); // Track user typing
   const [Loader, setLoader] = useState(true);
-  const [IsSearch, SetSearch] = useState(false);
+  const [IsSearch, SetSearch] = useState(false)
   const [ChatOrMic, setChatOrMic] = useState(true);
   const [user, setUser] = useState<string | null>(""); // Initialize user state variable
   const messagesRef = collection(db, "Message");
@@ -225,9 +225,14 @@ function Chat() {
     }
   };
 
+  const HandleSearch = (e: any) => {
+    var message = e.target.value;
+    console.log(message);
+  }
+
   const ShowSearch = () => {
-    SetSearch(true);
-  };
+    SetSearch(true)
+  }
   const containRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -240,69 +245,46 @@ function Chat() {
               'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
           }}
         >
-          {IsSearch ? (
-            <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F51] sticky sm:px-4 lg:px-8 xl:px-2">
-              <div className="flex items-center  w-full sm:w-auto">
-                <MdArrowBack
-                  className="text-2xl mx-2 me-3 my-3  "
-                  onClick={() => {
-                    SetSearch(false);
-                  }}
-                />
-                <div className="relative w-full sm:w-auto md:w-[290px] lg:w-[290px]">
-                  <input
-                    type="text"
-                    className="bg-transparent border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 p-2.5 sm:w-[290px] md:w-[290px] lg:w-[290px]"
-                    placeholder="Search Messages..."
-                    required
+          {
+            IsSearch
+              ?
+              <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F51] sticky sm:px-4 lg:px-8 xl:px-2">
+                <div className="flex items-center  w-full sm:w-auto">
+                  <MdArrowBack className="text-2xl mx-2 me-3 my-3  " onClick={() => { SetSearch(false) }} />
+                  <div className="relative w-full sm:w-auto md:w-[290px] lg:w-[290px]">
+                    <input onClick={HandleSearch} type="text" className="bg-transparent border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 p-2.5 sm:w-[290px] md:w-[290px] lg:w-[290px]" placeholder="Search Messages..." required />
+                  </div>
+                  <button type="submit" className="bg-transparent border border-gray-300 border-1 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 transition duration-300 ease-in-out sm:ml-2">Search</button>
+                </div>
+              </div>
+              :
+              <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50">
+                <div className="flex ps-1 ">
+                  <MdArrowBack
+                    className="text-2xl mr-1 me-3 mt-3"
+                    onClick={() => { router.push("/users") }}
                   />
-                </div>
-                <button
-                  type="submit"
-                  className="bg-transparent border border-gray-300 border-1 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 transition duration-300 ease-in-out sm:ml-2"
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md border-bottom text-white bg-[#035F52] sm:px-4 lg:px-8 xl:px-2 z-50 fixed w-screen top-0">
-              <div className="flex ps-1 ">
-                <MdArrowBack
-                  className="text-2xl mr-1 me-3 mt-3"
-                  onClick={() => {
-                    router.push("/users");
-                  }}
-                />
-                <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
-                <div className="font-semibold ps-2">
-                  <p className="text-lg">{Loader ? "loading..." : user}</p>
-                  {typing ? (
-                    <div className="message_content flex justify-start">
-                      <div className="justify-between w-[]">
-                        <span className="font-bold text-[13px] w-auto">
-                          {user} typing...
-                        </span>
+                  <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
+                  <div className="font-semibold ps-2">
+                    <p className="text-lg">{Loader ? "loading..." : user}</p>
+                    {typing ? (
+                      <div className="message_content w-[100%] flex justify-start">
+                        <div className="justify-between ">
+                          <span className="font-bold text-[12px] w-auto">{user} typing...</span>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <p className="text-sm">
-                      {Loader ? "loading..." : `Id: ${room}`}
-                    </p>
-                  )}
+                    ) : (
+                      <p className="text-sm">{Loader ? "loading..." : `Id: ${room}`}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-4 pe-2 items-center w-[50%] justify-end cursor-pointer">
+                  <IoMdVideocam className="text-2xl" />
+                  <MdCall className="text-2xl" />
+                  <Dropdownmenu ShowSearch={ShowSearch} handleInstallButtonClick={handleInstallButtonClick} logout={logout} />
                 </div>
               </div>
-              <div className="flex flex-wrap gap-4 pe-2 items-center w-[50%] justify-end cursor-pointer">
-                <IoMdVideocam className="text-2xl" />
-                <MdCall className="text-2xl" />
-                <Dropdownmenu
-                  ShowSearch={ShowSearch}
-                  handleInstallButtonClick={handleInstallButtonClick}
-                  logout={logout}
-                />
-              </div>
-            </div>
-          )}
+          }
           <div
             className="flex-grow overflow-y-auto"
             ref={containRef}
@@ -328,40 +310,36 @@ function Chat() {
                   <div key={index}>
                     {(index === 0 ||
                       formatDateTime(data.createdAt).formattedDate !==
-                        formatDateTime(messages[index - 1].createdAt)
-                          .formattedDate) && (
-                      <center>
-                        <div className="mb-2">
-                          <span className="px-4 bg-white h-auto rounded-md">
-                            {formatDateTime(data.createdAt).formattedDate}{" "}
-                          </span>
-                        </div>
-                      </center>
-                    )}
+                      formatDateTime(messages[index - 1].createdAt)
+                        .formattedDate) && (
+                        <center>
+                          <div className="mb-2">
+                            <span className="px-4 bg-white h-auto rounded-md">
+                              {formatDateTime(data.createdAt).formattedDate}{" "}
+                            </span>
+                          </div>
+                        </center>
+                      )}
                     <div
-                      className={`message_content flex ${
-                        user === data.user ? "justify-end" : "justify-start"
-                      }`}
+                      className={`message_content flex ${user === data.user ? "justify-end" : "justify-start"
+                        }`}
                     >
                       <div
-                        className={`message_content flex ${
-                          user === data.user ? "hidden" : "justify-start"
-                        }`}
+                        className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
+                          }`}
                       >
                         <FaUserCircle className="w-5 h-8 mr-2" />
                       </div>
 
                       <div
-                        className={`${
-                          user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
-                        } text-dark rounded-lg p-2`}
+                        className={`${user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
+                          } text-dark rounded-lg p-2`}
                         style={{ maxWidth: "300px" }}
                       >
                         <div className="justify-between max-w-[300px]">
                           <span
-                            className={`font-bold ${
-                              user === data.user ? "hidden" : "block"
-                            }`}
+                            className={`font-bold ${user === data.user ? "hidden" : "block"
+                              }`}
                           >
                             {data.user}-:
                           </span>
@@ -384,7 +362,8 @@ function Chat() {
               )}
             </div>
           </div>
-          <div className="flex items-center p-2 w-full ">
+
+          <div className="flex items-center mt-4 p-2 w-full ">
             <div className="relative">
               <div
                 className="bg-white py-[11px] ps-3 rounded-l-full text-2xl cursor-pointer"
