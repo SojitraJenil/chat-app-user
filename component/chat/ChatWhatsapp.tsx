@@ -242,20 +242,21 @@ function Chat() {
           }}
         >
           {
-            IsSearch
+            !IsSearch
               ?
-              <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F51] sticky sm:px-4 lg:px-8 xl:px-2 ">
+              <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F51] sticky sm:px-4 lg:px-8 xl:px-2">
                 <div className="flex items-center">
                   <MdArrowBack className="text-2xl me-2 my-3" onClick={() => { SetSearch(false) }} />
-                  <div className="relative w-[300px]">
+                  <div className="relative sm:w-[280px]  md:w-[280px]  lg:w-[290px]  sm:h-auto">
                     <input type="text"
-                      className="bg-transparent border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  block w-full pl-2 p-2.5"
-                      placeholder="Search Mockups, Logos, Design Templates..." required />
+                      className="bg-transparent border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 p-2.5"
+                      placeholder="Search Messages..." required />
                   </div>
                   <button type="submit"
                     className="bg-transparent border border-gray-300 border-1 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 transition duration-300 ease-in-out">Search</button>
                 </div>
               </div>
+
               :
               <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50">
                 <div className="flex ps-1 w-[50%]">
@@ -284,9 +285,6 @@ function Chat() {
                 </div>
               </div>
           }
-
-
-
           <div
             className="flex-grow overflow-y-auto"
             ref={containRef}
@@ -387,13 +385,13 @@ function Chat() {
               value={newMessage}
               onChange={MessageHandler}
               placeholder="Message... "
+              className="w-[20%] flex-grow border  px-4 py-3 focus:outline-none focus:border-transparent  border-transparent"
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
                   sendMessage();
                 }
               }}
-              className=" w-[20%] flex-grow border  px-4 py-3 focus:outline-none focus:border-transparent  border-transparent"
             />
             <div className="bg-white flex gap-4 py-[11px] pe-3 rounded-r-full text-2xl">
               <FaCamera className="text-xl" />
