@@ -1,9 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.sticky {
-  position: sticky;
-  top: 0;
-  z-index: 50; /* Ensure it's above other content */
-}
-/* General styles */
