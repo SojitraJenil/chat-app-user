@@ -28,10 +28,10 @@ function Chat() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [newMessage, setNewMessage] = useState("");
   const [typing, setTyping] = useState(false); // Track user typing
-  const [typingMessage, setTypingMessage] = useState(""); // Track typing message
   const [Loader, setLoader] = useState(true);
+  const [IsSearch, SetSearch] = useState(false)
   const [ChatOrMic, setChatOrMic] = useState(true);
-  const [user, setUser] = useState(""); // Initialize user state variable
+  const [user, setUser] = useState<string | null>(""); // Initialize user state variable
   const messagesRef = collection(db, "Message");
   const router = useRouter();
   const cookies = new Cookies();
@@ -63,10 +63,13 @@ function Chat() {
   }, [authToken, router]);
 
   useEffect(() => {
-    if (auth.currentUser) {
-      setUser(auth.currentUser.displayName || "");
-    }
-  }, [auth.currentUser]);
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+        setUser(currentUser.displayName || "");
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (containRef.current) {
@@ -196,7 +199,6 @@ function Chat() {
   // Function to handle user typing timeout
   const handleTypingTimeout = () => {
     setTyping(false);
-    setTypingMessage("hello");
   };
 
   useEffect(() => {
@@ -224,7 +226,6 @@ function Chat() {
     }
   };
 
-  const [IsSearch, SetSearch] = useState(false)
 
   const ShowSearch = () => {
     SetSearch(true)
