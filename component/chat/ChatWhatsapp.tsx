@@ -266,7 +266,7 @@ function Chat() {
                   />
                   <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
                   <div className="font-semibold ps-2">
-                    <p className="text-lg">{Loader ? "loading..." : user}</p>
+                    <p className="text-lg">{Loader ? "loading..." : user?.toUpperCase()}</p>
                     {typing ? (
                       <div className="message_content w-[100%] flex justify-start">
                         <div className="justify-between ">
