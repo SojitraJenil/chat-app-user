@@ -22,6 +22,7 @@ import Cookies from "universal-cookie";
 import dynamic from "next/dynamic";
 import EmojiPicker from "emoji-picker-react";
 import Dropdownmenu from "./Dropdownmenu";
+import Maintenance from "../maintenance/Maintenance";
 
 function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -182,17 +183,17 @@ function Chat() {
     });
   };
 
-  const removeEmojis = (text:any) => {
+  const removeEmojis = (text: any) => {
     // Regular expression to match emojis
     const emojiRegex = /[\u{1F600}-\u{1F64F}]/gu;
     // Replace emojis with an empty string
     return text.replace(emojiRegex, '');
   };
-  
+
   const MessageHandler = (event: any) => {
     const message = event.target.value;
     const messageWithoutEmojis = removeEmojis(message);
-  
+
     console.log(messageWithoutEmojis.length);
     setNewMessage(message);
     if (messageWithoutEmojis.trim().length === 0) {
@@ -204,7 +205,7 @@ function Chat() {
       }
     }
   };
-  
+
   // Function to handle user typing timeout
   const handleTypingTimeout = () => {
     setTyping(false);
@@ -306,15 +307,20 @@ function Chat() {
           >
             <div className="space-y-4 px-2">
               {Loader ? (
-                <div className="flex justify-center align-bottom mt-8">
-                  <RotatingLines
-                    visible={true}
-                    width={"40"}
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    ariaLabel="rotating-lines-loading"
-                  />
-                </div>
+                <>
+                  <div className="flex justify-center align-bottom mt-8">
+                    <RotatingLines
+                      visible={true}
+                      width={"40"}
+                      strokeWidth="5"
+                      animationDuration="0.75"
+                      ariaLabel="rotating-lines-loading"
+                    />
+                  </div>
+
+                  <Maintenance />
+                </>
+
               ) : (
                 messages.map((data, index) => (
                   <div key={index}>
