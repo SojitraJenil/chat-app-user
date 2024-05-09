@@ -14,7 +14,6 @@ function Auth1() {
   useEffect(() => {
     const authToken = cookies.get("auth-token");
     if (authToken) {
-      console.log("Navigating to /join"); // Check if navigation is supposed to happen
       router.push("/join");
     }
   }, [cookies, router]);

@@ -35,7 +35,6 @@ function Admin() {
                     };
                 });
                 setMessages(messagesData);
-                console.log("Messages:", messagesData);
             } catch (error) {
                 console.error("Error fetching messages:", error);
             }
@@ -58,7 +57,6 @@ function Admin() {
                 };
             });
             setMessages(messagesData);
-            console.log("Messages:", messagesData);
         });
 
         return () => unsubscribe(); // Unsubscribe when component unmounts

@@ -30,7 +30,6 @@ const WhatsAppUI = () => {
                 setMessages(messagesData);
                 setFilteredMessages(messagesData);
                 setLoader(false)
-                console.log("Messages:", messagesData);
             } catch (error) {
                 console.error("Error fetching messages:", error);
             }

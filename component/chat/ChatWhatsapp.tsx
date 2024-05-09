@@ -89,7 +89,6 @@ function Chat() {
         .sort((a: any, b: any) => a.createdAt - b.createdAt);
       setLoader(false);
       setMessages(sortedMessages);
-      console.log(sortedMessages);
       setLoader(false);
     });
 
