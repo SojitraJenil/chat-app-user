@@ -242,24 +242,20 @@ function Chat() {
           }}
         >
           {
-            !IsSearch
+            IsSearch
               ?
               <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F51] sticky sm:px-4 lg:px-8 xl:px-2">
-                <div className="flex items-center">
+                <div className="flex items-center  w-full sm:w-auto">
                   <MdArrowBack className="text-2xl me-2 my-3" onClick={() => { SetSearch(false) }} />
-                  <div className="relative sm:w-[280px]  md:w-[280px]  lg:w-[290px]  sm:h-auto">
-                    <input type="text"
-                      className="bg-transparent border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 p-2.5"
-                      placeholder="Search Messages..." required />
+                  <div className="relative w-full sm:w-auto md:w-[290px] lg:w-[290px]">
+                    <input type="text" className="bg-transparent border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 p-2.5 sm:w-[290px] md:w-[290px] lg:w-[290px]" placeholder="Search Messages..." required />
                   </div>
-                  <button type="submit"
-                    className="bg-transparent border border-gray-300 border-1 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 transition duration-300 ease-in-out">Search</button>
+                  <button type="submit" className="bg-transparent border border-gray-300 border-1 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 transition duration-300 ease-in-out sm:ml-2">Search</button>
                 </div>
               </div>
-
               :
               <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50">
-                <div className="flex ps-1 w-[50%]">
+                <div className="flex ps-1 ">
                   <MdArrowBack
                     className="text-2xl mr-1 mt-3"
                     onClick={() => { router.push("/users") }}
@@ -274,7 +270,7 @@ function Chat() {
                         </div>
                       </div>
                     ) : (
-                      <p className="text-sm">{Loader ? "loading..." : `Room No-: ${room}`}</p>
+                      <p className="text-sm">{Loader ? "loading..." : `Id: ${room}`}</p>
                     )}
                   </div>
                 </div>
