@@ -3,7 +3,7 @@ import { FaMicrophone, FaUserCircle } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
 import { IoSend } from "react-icons/io5";
 import { MdArrowBack, MdCall, MdOutlineEmojiEmotions } from "react-icons/md";
-import { IoMdVideocam } from "react-icons/io";
+import { IoMdClose, IoMdVideocam } from "react-icons/io";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { GoPaperclip } from "react-icons/go";
 import { FaCamera } from "react-icons/fa";
@@ -253,7 +253,7 @@ function Chat() {
                   <MdArrowBack className="text-2xl mx-2  me-3 mt-3 mb-[10px] " onClick={() => { SetSearch(false) }} />
                   <div className="relative w-full sm:w-auto md:w-[290px] lg:w-[290px]">
                     <input onClick={HandleSearch} type="text" className="bg-transparent border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2 p-2.5 sm:w-[290px] md:w-[290px] lg:w-[290px]" placeholder="Search Messages..." required />
-                  </div>  
+                  </div>
                   <button type="submit" className="bg-transparent border border-gray-300 border-1 text-white rounded-lg px-4 py-2 ml-2 hover:bg-blue-600 transition duration-300 ease-in-out sm:ml-2">Search</button>
                 </div>
               </div>
@@ -369,7 +369,10 @@ function Chat() {
                 className="bg-white py-[11px] ps-3 rounded-l-full text-2xl cursor-pointer"
                 onClick={toggleEmojiPicker}
               >
-                <MdOutlineEmojiEmotions />
+                {
+                  showEmojiPicker ? <IoMdClose /> : <MdOutlineEmojiEmotions />
+                }
+
               </div>
               <div className="absolute bottom-12">
                 {showEmojiPicker && (
