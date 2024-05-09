@@ -201,7 +201,7 @@ function Chat() {
 
   useEffect(() => {
     // Set a timeout to clear typing status
-    const typingTimeout = setTimeout(handleTypingTimeout, 700);
+    const typingTimeout = setTimeout(handleTypingTimeout, 1000);
     return () => clearTimeout(typingTimeout);
   }, [newMessage]);
 
