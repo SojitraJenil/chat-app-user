@@ -3,10 +3,9 @@ import { FaMicrophone, FaUserCircle } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
 import { IoSend } from "react-icons/io5";
 import { MdArrowBack, MdCall, MdOutlineEmojiEmotions } from "react-icons/md";
-import { IoMdRefresh, IoMdVideocam } from "react-icons/io";
-import { GrLogout } from "react-icons/gr";
+import { IoMdVideocam } from "react-icons/io";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
-import { GoDownload, GoPaperclip } from "react-icons/go";
+import { GoPaperclip } from "react-icons/go";
 import { FaCamera } from "react-icons/fa";
 import moment from "moment-timezone";
 import Swal from "sweetalert2";
@@ -22,6 +21,7 @@ import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 import dynamic from "next/dynamic";
 import EmojiPicker from "emoji-picker-react";
+import Dropdownmenu from "./Dropdownmenu";
 
 function Chat() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -205,16 +205,6 @@ function Chat() {
     return () => clearTimeout(typingTimeout);
   }, [newMessage]);
 
-  const handleInstallButtonClick = async () => {
-    if (installPrompt) {
-      try {
-        await installPrompt.prompt();
-        const choiceResult = await installPrompt.userChoice;
-      } catch (error) {
-        console.error("Error prompting installation:", error);
-      }
-    }
-  };
 
   const BackHandler = () => {
     router.push("/users");
@@ -230,6 +220,16 @@ function Chat() {
     setNewMessage(newMessage + emojiObject.emoji);
   };
 
+  const handleInstallButtonClick = async () => {
+    if (installPrompt) {
+      try {
+        await installPrompt.prompt();
+        const choiceResult = await installPrompt.userChoice;
+      } catch (error) {
+        console.error("Error prompting installation:", error);
+      }
+    }
+  };
   return (
     <div>
       <div className="container mx-auto h-screen max-w-md text-sm">
@@ -240,7 +240,8 @@ function Chat() {
               'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
           }}
         >
-          <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky   0 z-50 sm:px-4 lg:px-8 xl:px-2 ">
+          <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50">
+
             <div className="flex ps-1 w-[50%]">
               <MdArrowBack
                 className="w-6 h-6 mr-1 mt-3"
@@ -261,18 +262,11 @@ function Chat() {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-3 pe-2 items-center w-[50%] justify-end cursor-pointer">
-              {/* <IoMdVideocam className="text-2xl" /> */}
+
+            <div className="flex flex-wrap gap-4 pe-2 items-center w-[50%] justify-end cursor-pointer">
+              <IoMdVideocam className="text-2xl" />
               <MdCall className="text-2xl" />
-              <GoDownload
-                onClick={handleInstallButtonClick}
-                className="text-2xl fw-bold "
-              />
-              <IoMdRefresh
-                onClick={() => window.location.reload()}
-                className="text-2xl"
-              />
-              <GrLogout onClick={logout} className="text-xl " />
+              <Dropdownmenu handleInstallButtonClick={handleInstallButtonClick} logout={logout} />
             </div>
           </div>
           <div

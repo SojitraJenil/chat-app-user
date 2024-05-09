@@ -9,7 +9,7 @@ function Join() {
   const cookies = new Cookies();
   const authToken = cookies.get("auth-token");
   const [username, setUsername] = useState("");
-  const [room, setRoom] = useState("");
+  const [room, setRoom] = useState<string | number>("");
   const router = useRouter()
   useEffect(() => {
     const roomFromCookie = cookies.get("room");
@@ -88,10 +88,10 @@ function Join() {
                 Chat Room ID
               </label>
               <input
-                type="text"
+                type="number"
                 id="room"
                 className="mt-1 text-black p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={room}
+                value={room == 0 ? '' : room}
                 onChange={(e) => setRoom(e.target.value)}
                 placeholder="Enter room chat ID"
                 required
