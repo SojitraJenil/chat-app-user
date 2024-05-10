@@ -62,14 +62,16 @@ function Chat() {
       router.push("/authentication");
     } else if (!room) {
       router.push("/join");
+    } else {
+      const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+        if (!currentUser || !currentUser.displayName) {
+          router.push("/authentication");
+        }
+      });
+      return () => unsubscribe();
     }
-    const unsubscribe = auth.onAuthStateChanged((currentUser:any) => {      
-      if (currentUser.displayName.trim() === null) {
-      router.push("/authentication");
-      }
-    });
-    return () => unsubscribe();
-  }, [authToken, router]);
+  }, [authToken, room, router]);
+  
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
