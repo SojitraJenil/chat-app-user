@@ -18,12 +18,6 @@ function Join() {
     }
   }, [cookies, router]);
 
-  useEffect(() => {
-    if (!authToken) {
-      router.push("/authentication");
-    }
-  }, [authToken, router]);
-
   const JoinRoomHandler = () => {
     if (!username || !room) {
       Swal.fire({

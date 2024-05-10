@@ -58,22 +58,6 @@ function Chat() {
   }, [installPrompt]);
 
   useEffect(() => {
-    if (!authToken) {
-      router.push("/authentication");
-    } else if (!room) {
-      router.push("/join");
-    } else {
-      const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-        if (!currentUser || !currentUser.displayName) {
-          router.push("/authentication");
-        }
-      });
-      return () => unsubscribe();
-    }
-  }, [authToken, room, router]);
-  
-
-  useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) {
         setUser(currentUser.displayName || "");

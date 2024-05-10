@@ -14,7 +14,7 @@ function Auth1() {
   const authToken = cookies.get("auth-token");
   useEffect(() => {
     if (authToken) {
-      router.push("/join");
+      router.push("/chat");
     } else{
       router.push("/authentication");
     }
