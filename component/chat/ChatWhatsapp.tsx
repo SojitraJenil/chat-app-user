@@ -63,8 +63,8 @@ function Chat() {
     } else if (!room) {
       router.push("/join");
     }
-    const unsubscribe = auth.onAuthStateChanged((currentUser:any) => {
-      if (!currentUser.displayName) {
+    const unsubscribe = auth.onAuthStateChanged((currentUser:any) => {      
+      if (currentUser.displayName.trim() === null) {
       router.push("/authentication");
       }
     });
