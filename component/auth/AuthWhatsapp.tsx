@@ -8,19 +8,7 @@ import Cookies from "universal-cookie";
 import dynamic from "next/dynamic";
 
 function Auth1() {
-  const cookies = new Cookies();
   const router = useRouter();
-
-  const authToken = cookies.get("auth-token");
-  useEffect(() => {
-    if (authToken) {
-      router.push("/join");
-    } else{
-      router.push("/authentication");
-    }
-  }, [cookies, router]);
-
-
   const signInGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -33,7 +21,6 @@ function Auth1() {
       cookies.set("auth-token", result.user.refreshToken, {
         expires: expiryDate,
       });
-
       router.push("/join");
     } catch (error) {
       console.error(error);
