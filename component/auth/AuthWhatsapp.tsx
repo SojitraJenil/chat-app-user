@@ -11,12 +11,26 @@ function Auth1() {
   const cookies = new Cookies();
   const router = useRouter();
 
+  const authToken = cookies.get("auth-token");
   useEffect(() => {
-    const authToken = cookies.get("auth-token");
     if (authToken) {
       router.push("/join");
     }
   }, [cookies, router]);
+
+  useEffect(() => {
+    if (!authToken) {
+      router.push("/authentication");
+      const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+        if (!currentUser || !currentUser.displayName) {
+          router.push("/authentication");
+        }
+      });
+      return () => unsubscribe();
+    }
+  }, [authToken, router]);
+
+
 
   const signInGoogle = async () => {
     try {
