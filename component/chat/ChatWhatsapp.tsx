@@ -60,7 +60,15 @@ function Chat() {
   useEffect(() => {
     if (!authToken) {
       router.push("/authentication");
+    } else if (!room) {
+      router.push("/join");
     }
+    const unsubscribe = auth.onAuthStateChanged((currentUser:any) => {
+      if (!currentUser.displayName) {
+      router.push("/authentication");
+      }
+    });
+    return () => unsubscribe();
   }, [authToken, router]);
 
   useEffect(() => {
@@ -155,7 +163,7 @@ function Chat() {
       });
       return;
     }
-  
+
     // If the message is not empty, add it to the Firestore collection
     setNewMessage("");
     const displayName = auth.currentUser?.displayName || "Anonymous"; // Providing a default name if display name is not available
@@ -167,7 +175,7 @@ function Chat() {
       room,
     });
   };
-  
+
 
   const logout = () => {
     Swal.fire({
