@@ -57,11 +57,12 @@ function Chat() {
     };
   }, [installPrompt]);
 
+  console.log(auth.currentUser?.displayName);
   useEffect(() => {
     const roomFromCookie = cookies.get("room");
     if (!roomFromCookie) {
       router.push(`/join`);
-    } else if(!authToken){
+    } else if(!authToken || auth.currentUser?.displayName === null ){
       router.push(`/authentication`);
     }
   }, [cookies, router]);

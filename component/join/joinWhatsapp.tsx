@@ -10,13 +10,16 @@ function Join() {
   const authToken = cookies.get("auth-token");
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState<string | number>("");
-  const router = useRouter()
+  const router = useRouter()  
   useEffect(() => {
     const roomFromCookie = cookies.get("room");
-    if (roomFromCookie) {
-      router.push(`/chat`);
-    } else  if(!authToken){
-      router.push(`/authentication`);
+    if(authToken){
+
+      if (roomFromCookie) {
+        router.push(`/chat`);
+      } else  if(!authToken){
+        router.push(`/authentication`);
+      }
     }
   }, [cookies, router]);
 
