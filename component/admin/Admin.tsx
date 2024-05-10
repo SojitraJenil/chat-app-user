@@ -115,9 +115,9 @@ function Admin() {
     return (
         <div>
             {currentMessages.length > 0 ? (
-                <div className='px-5'>
+                <div className='px-5text-[8px]'>
                     <h2 className="text-2xl font-bold mb-4 text-center">Admin Dashboard</h2>
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto  w-full ">
                         <table className="table-auto w-full border-collapse border border-gray-800 rounded-lg overflow-hidden">
                             <thead>
                                 <tr className="bg-gray-200 text-center">

@@ -5,7 +5,8 @@ import { TbLogout } from "react-icons/tb";
 import { CgProfile } from "react-icons/cg";
 import { IoMdRefresh } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
-import { MdDownloadDone, MdOutlineWallpaper } from "react-icons/md";
+import { MdAdminPanelSettings, MdDownloadDone, MdOutlineWallpaper } from "react-icons/md";
+import { useRouter } from "next/router";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -30,6 +31,8 @@ export default function Dropdownmenu({
   const SetShowSearch = () => {
     ShowSearch();
   };
+
+  const router = useRouter()
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -129,6 +132,23 @@ export default function Dropdownmenu({
                     {" "}
                     <IoSearch className="text-lg me-2" />
                     Search
+                  </div>
+                </p>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }: { active: boolean }) => (
+                <p
+                  onClick={()=>{router.push("/admin")}}
+                  className={classNames(
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-md"
+                  )}
+                >
+                  <div className="flex">
+                    {" "}
+                    <MdAdminPanelSettings  className="text-lg me-2" />
+                    Admin
                   </div>
                 </p>
               )}
