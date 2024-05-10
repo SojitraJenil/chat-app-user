@@ -155,17 +155,19 @@ function Chat() {
       });
       return;
     }
-
+  
     // If the message is not empty, add it to the Firestore collection
     setNewMessage("");
+    const displayName = auth.currentUser?.displayName || "Anonymous"; // Providing a default name if display name is not available
     await addDoc(messagesRef, {
       id: uniqueId,
       text: newMessage,
       createdAt: new Date().getTime(),
-      user: auth.currentUser?.displayName,
+      user: displayName,
       room,
     });
   };
+  
 
   const logout = () => {
     Swal.fire({
@@ -318,7 +320,7 @@ function Chat() {
                     />
                   </div>
 
-                  <Maintenance />
+                  {/* <Maintenance /> */}
                 </>
 
               ) : (

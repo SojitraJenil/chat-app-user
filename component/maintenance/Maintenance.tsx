@@ -11,7 +11,7 @@ function Maintenance() {
                     width={600}
                     height={600}
                 />
-                <p className="maintenance-text my-3 font-bold text-center text-2xl animate-bounce">We are under Maintenance</p>
+                <p className="maintenance-text my-3 font-bold text-center text- xl animate-bounce">We are under Maintenance</p>
             </div>
         </div>
     );
