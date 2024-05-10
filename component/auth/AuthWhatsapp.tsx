@@ -15,6 +15,8 @@ function Auth1() {
   useEffect(() => {
     if (authToken) {
       router.push("/join");
+    } else{
+      router.push("/authentication");
     }
   }, [cookies, router]);
 
