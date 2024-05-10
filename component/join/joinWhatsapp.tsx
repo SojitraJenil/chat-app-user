@@ -15,6 +15,8 @@ function Join() {
     const roomFromCookie = cookies.get("room");
     if (roomFromCookie) {
       router.push(`/chat`);
+    } else  if(!authToken){
+      router.push(`/authentication`);
     }
   }, [cookies, router]);
 
