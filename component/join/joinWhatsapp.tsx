@@ -13,16 +13,24 @@ function Join() {
   const router = useRouter()
 
   useEffect(() => {
-    // const roomFromCookie = cookies.get("room");
-    if (!authToken) {
-      router.push(`/authentication`);
+    const roomFromCookie = cookies.get("room");
+    if (roomFromCookie) {
+      router.push(`/chat`);
     }
   }, [cookies, router]);
+
+  useEffect(() => {
+    if (!authToken) {
+      router.push("/authentication");
+    }
+  }, [authToken, router]);
+
+
 
   const JoinRoomHandler = () => {
     if (!username || !room) {
       Swal.fire({
-        text: "Enter The UserName and RoomID...!",
+        text: "All Are Require...!",
         showClass: {
           popup: `
             animate__animated
