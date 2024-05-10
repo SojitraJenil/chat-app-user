@@ -20,19 +20,6 @@ function Auth1() {
     }
   }, [cookies, router]);
 
-  useEffect(() => {
-    if (!authToken) {
-      router.push("/authentication");
-      const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-        if (!currentUser || !currentUser.displayName) {
-          router.push("/authentication");
-        }
-      });
-      return () => unsubscribe();
-    }
-  }, [authToken, router]);
-
-
 
   const signInGoogle = async () => {
     try {
