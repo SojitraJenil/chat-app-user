@@ -1,10 +1,10 @@
-import Join from '@/component/join/joinWhatsapp'
+import Login from '@/component/login/login'
 import React from 'react'
 
 function index() {
   return (
     <div>
-      <Join/>
+      <Login />
     </div>
   )
 }

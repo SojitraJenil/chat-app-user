@@ -11,29 +11,33 @@ function Auth1() {
   const cookies = new Cookies();
   const router = useRouter();
 
-  useEffect(() => {
-    const authToken = cookies.get("auth-token");
-    if (authToken) {
-      console.log("Navigating to /join"); // Check if navigation is supposed to happen
-      router.push("/join");
-    }
-  }, [cookies, router]);
+  // useEffect(() => {
+  //   const authToken = cookies.get("auth-token");
+  //   if (authToken) {
+  //     console.log("Navigating to /login"); // Check if navigation is supposed to happen
+  //     router.push("/login");
+  //   }
+  // }, [cookies, router]);
+
 
   const signInGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
+      const userEmail = result.user.email;
+      console.log("User Gmail ID:", userEmail);
       const cookies = new Cookies();
       const expiryDate = new Date();
-      expiryDate.setDate(expiryDate.getDate() + 15); // Add 7 days to the current date
+      expiryDate.setDate(expiryDate.getDate() + 15);
       cookies.set("auth-token", result.user.refreshToken, {
         expires: expiryDate,
       });
-      router.push("/join");
+      router.push(`/login?email=${userEmail}`);
     } catch (error) {
-      console.error(error);
+      console.error("Error signing in with Google:", error);
     }
   };
+
 
   return (
     <div className="relative">

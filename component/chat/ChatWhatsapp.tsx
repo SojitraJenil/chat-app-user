@@ -58,15 +58,14 @@ function Chat() {
     };
   }, [installPrompt]);
 
-  console.log(auth.currentUser?.displayName);
-  useEffect(() => {
-    const roomFromCookie = cookies.get("room");
-    if (!roomFromCookie) {
-      router.push(`/join`);
-    } else if (!authToken || auth.currentUser?.displayName === null) {
-      router.push(`/authentication`);
-    }
-  }, [cookies, router]);
+  // useEffect(() => {
+  //   const roomFromCookie = cookies.get("room");
+  //   if (!roomFromCookie) {
+  //     router.push(`/login`);
+  //   } else if (!authToken || auth.currentUser?.displayName === null) {
+  //     router.push(`/authentication`);
+  //   }
+  // }, [cookies, router]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -102,7 +101,6 @@ function Chat() {
   }, []);
 
   function getCookie(name: any) {
-    // Check if document object is available (specific to browser environments)
     if (typeof document !== "undefined") {
       var cookies = document.cookie.split(";");
       for (var i = 0; i < cookies.length; i++) {
@@ -184,25 +182,24 @@ function Chat() {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteCookie("room");
-        router.push("/join");
+        router.push("/login");
       }
     });
   };
 
   const removeEmojis = (text: any) => {
     // Regular expression to match emojis
-    const emojiRegex = /[\u{1F600}-\u{1F64F}]/gu;
+    // const emojiRegex = /[\u{1F600}-\u{1F64F}]/gu;
     // Replace emojis with an empty string
-    return text.replace(emojiRegex, "");
+    // return text.replace(emojiRegex, "");
   };
 
   const MessageHandler = (event: any) => {
     const message = event.target.value;
-    const messageWithoutEmojis = removeEmojis(message);
+    const messageWithoutEmojis: any = removeEmojis(message);
 
-    console.log(messageWithoutEmojis.length);
     setNewMessage(message);
-    if (messageWithoutEmojis.trim().length === 0) {
+    if (messageWithoutEmojis.length === 0) {
       setChatOrMic(true);
     } else {
       setChatOrMic(false);
@@ -244,7 +241,6 @@ function Chat() {
 
   const HandleSearch = (e: any) => {
     var message = e.target.value;
-    console.log(message);
   };
 
   const ShowSearch = () => {
@@ -357,40 +353,36 @@ function Chat() {
                   <div key={index}>
                     {(index === 0 ||
                       formatDateTime(data.createdAt).formattedDate !==
-                        formatDateTime(messages[index - 1].createdAt)
-                          .formattedDate) && (
-                      <center>
-                        <div className="mb-2">
-                          <span className="px-4 bg-white h-auto rounded-md">
-                            {formatDateTime(data.createdAt).formattedDate}{" "}
-                          </span>
-                        </div>
-                      </center>
-                    )}
+                      formatDateTime(messages[index - 1].createdAt)
+                        .formattedDate) && (
+                        <center>
+                          <div className="mb-2">
+                            <span className="px-4 bg-white h-auto rounded-md">
+                              {formatDateTime(data.createdAt).formattedDate}{" "}
+                            </span>
+                          </div>
+                        </center>
+                      )}
                     <div
-                      className={`message_content flex ${
-                        user === data.user ? "justify-end" : "justify-start"
-                      }`}
+                      className={`message_content flex ${user === data.user ? "justify-end" : "justify-start"
+                        }`}
                     >
                       <div
-                        className={`message_content flex ${
-                          user === data.user ? "hidden" : "justify-start"
-                        }`}
+                        className={`message_content flex ${user === data.user ? "hidden" : "justify-start"
+                          }`}
                       >
                         <FaUserCircle className="w-5 h-8 mr-2" />
                       </div>
 
                       <div
-                        className={`${
-                          user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
-                        } text-dark rounded-lg p-2`}
+                        className={`${user === data.user ? "bg-[#D9FDD3]" : "bg-[#ffffff]"
+                          } text-dark rounded-lg p-2`}
                         style={{ maxWidth: "300px" }}
                       >
                         <div className="justify-between max-w-[300px]">
                           <span
-                            className={`font-bold ${
-                              user === data.user ? "hidden" : "block"
-                            }`}
+                            className={`font-bold ${user === data.user ? "hidden" : "block"
+                              }`}
                           >
                             {data.user}-:
                           </span>
