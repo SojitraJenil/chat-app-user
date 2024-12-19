@@ -11,13 +11,13 @@ function Auth1() {
   const cookies = new Cookies();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const authToken = cookies.get("auth-token");
-  //   if (authToken) {
-  //     console.log("Navigating to /login"); // Check if navigation is supposed to happen
-  //     router.push("/login");
-  //   }
-  // }, [cookies, router]);
+  useEffect(() => {
+    const authToken = cookies.get("auth-token");
+    if (authToken) {
+      console.log("Navigating to /login"); // Check if navigation is supposed to happen
+      router.push("/login");
+    }
+  }, [cookies, router]);
 
 
   const signInGoogle = async () => {

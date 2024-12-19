@@ -9,38 +9,34 @@ import {
     onSnapshot,
     serverTimestamp,
 } from "firebase/firestore";
-import { MdArrowBack, MdCall, MdOutlineEmojiEmotions } from "react-icons/md";
-import { FaCamera, FaMicrophone, FaUserCircle } from "react-icons/fa";
-import { IoMdClose, IoMdVideocam } from "react-icons/io";
-import { RotatingLines } from "react-loader-spinner";
+import { MdArrowBack } from "react-icons/md";
+import { IoSend } from "react-icons/io5";
 import moment from "moment";
 import { useAtom } from "jotai";
-import { GoPaperclip } from "react-icons/go";
-import { RiMoneyRupeeCircleFill } from "react-icons/ri";
-import { IoSend } from "react-icons/io5";
 import { receiverDetails } from "@/store/atoms";
+import { RotatingLines } from "react-loader-spinner";
 
 const UserChat = () => {
     const router = useRouter();
     const { mobileNo } = router.query;
 
-    // Atoms for receiver details
-    const [receiveUser, setReceiveUser] = useAtom<any>(receiverDetails);
-    const [receiveName, setReceiveName] = useState("");
+    const [receiveUser] = useAtom(receiverDetails);
+    const [receiveName, setReceiveName] = useState("Unknown User");
+    const [loader, setLoader] = useState(false);
+    const [messages, setMessages] = useState<any>([]);
+    const [newMessage, setNewMessage] = useState("");
+    const containRef = useRef<any>(null);
 
-    // Get receiver details from atom
+    // Extract receiver details
     useEffect(() => {
         if (Array.isArray(receiveUser)) {
-            const Receiver = receiveUser.find(
-                (item: any) => item.mobileNo === mobileNo
-            );
-            const SingleName = Receiver ? Receiver.username : "Unknown User";
-            setReceiveName(SingleName);
+            const Receiver = receiveUser.find((item) => item.mobileNo === mobileNo);
+            setReceiveName(Receiver?.username || "Unknown User");
         }
     }, [receiveUser, mobileNo]);
 
-    // Cookie helper function
-    const getCookie = (name: string) => {
+    // Helper to get cookies
+    const getCookie = (name: any) => {
         if (typeof document !== "undefined") {
             const cookies = document.cookie.split("; ");
             for (const cookie of cookies) {
@@ -50,15 +46,14 @@ const UserChat = () => {
         }
         return null;
     };
+
     const CurrentMobileNo = getCookie("mobileno");
     const CurrentName = getCookie("username");
-
-    const [messages, setMessages] = useState<any[]>([]);
-    const [newMessage, setNewMessage] = useState("");
-    const containRef = useRef<HTMLDivElement>(null);
-
     const chatRoomId = [CurrentMobileNo, mobileNo].sort().join("_");
+
+    // Fetch messages in real-time
     useEffect(() => {
+        setLoader(true)
         if (!mobileNo || !CurrentMobileNo) return;
 
         const q = query(
@@ -72,6 +67,7 @@ const UserChat = () => {
                 ...doc.data(),
             }));
             setMessages(fetchedMessages);
+            setLoader(false)
         });
 
         return () => unsubscribe();
@@ -79,7 +75,7 @@ const UserChat = () => {
 
     // Send a new message
     const handleSendMessage = async () => {
-        if (newMessage.trim() === "") return;
+        if (!newMessage.trim()) return;
 
         try {
             await addDoc(collection(db, "chats", chatRoomId, "messages"), {
@@ -95,178 +91,99 @@ const UserChat = () => {
         }
     };
 
+    // Format timestamp
     const formatDateTime = (timestamp: any) => {
-        if (!timestamp) {
-            return { formattedDate: "", formattedTime: "" };
-        }
+        if (!timestamp) return { formattedDate: "", formattedTime: "" };
 
-        let jsDate;
-
-        // Check if timestamp is a Firestore Timestamp object (has toDate method)
-        if (timestamp.toDate) {
-            jsDate = timestamp.toDate(); // Convert Firestore Timestamp to JavaScript Date
-        } else if (timestamp instanceof Date) {
-            jsDate = timestamp; // Already a JavaScript Date object
-        } else if (typeof timestamp === "number") {
-            jsDate = new Date(timestamp); // Unix timestamp in milliseconds
-        } else if (typeof timestamp === "string") {
-            jsDate = new Date(timestamp); // ISO 8601 string
-        } else {
-            throw new Error("Invalid timestamp format");
-        }
-
-        // Format the date and time using Moment.js
-        const formattedDate = moment(jsDate).format("DD-MM-YYYY");
-        const formattedTime = moment(jsDate).format("hh:mm A");
-
-        return { formattedDate, formattedTime };
+        const jsDate = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        return {
+            formattedDate: moment(jsDate).format("DD-MM-YYYY"),
+            formattedTime: moment(jsDate).format("hh:mm A"),
+        };
     };
 
-
+    // Auto-scroll to the latest message
     useEffect(() => {
         if (containRef.current) {
             containRef.current.scrollTop = containRef.current.scrollHeight;
         }
     }, [messages]);
 
-
     return (
-        <div>
-            <div className="container mx-auto h-screen max-w-md text-sm">
-                <div
-                    className="rounded-lg shadow-lg shadow-black mb-4 bg-cover h-screen flex flex-col"
-                    style={{
-                        backgroundImage:
-                            'url("https://i.ibb.co/3s1f9Jq/default-wallpaper.png")',
-                    }}
-                >
-                    <div className="flex justify-between items-center border-b border-black pb-2 p-2 rounded-md mb-4 border-bottom text-white bg-[#035F52] sticky sm:px-4 lg:px-8 xl:px-2 z-50">
-                        <div className="flex ps-1 ">
-                            <MdArrowBack
-                                className="text-2xl mr-1 me-3 mt-3"
-                                onClick={() => {
-                                    router.push("/users");
-                                }}
-                            />
-                            <FaUserCircle className="w-8 h-8 mr-1 mt-2 " />
-                            <div className="font-semibold ps-2">
-                                <div>
-                                    <p className="font-semibold text-xs">{receiveName}</p>
-                                    <p className="text-xs">{`${mobileNo}`}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap gap-4 pe-2 items-center w-[50%] justify-end cursor-pointer">
-                            <IoMdVideocam className="text-2xl" />
-                            <MdCall className="text-2xl" />
-                            {/* <Dropdownmenu
-                                        ShowSearch={ShowSearch}
-                                        handleInstallButtonClick={handleInstallButtonClick}
-                                        logout={logout}
-                                    /> */}
-                        </div>
-                    </div>
-
-                    <div
-                        className="flex-grow overflow-y-auto"
-                        ref={containRef}
-                        style={{
-                            overflowY: "scroll",
-                            scrollbarWidth: "none",
-                            scrollbarColor: "transparent transparent",
-                        }}
-                    >
-                        <div className="space-y-4 px-2">
-                            {false ? (
-                                <>
-                                    <div className="flex justify-center items-center my-20">
-                                        <RotatingLines
-                                            visible={true}
-                                            width={"40"}
-                                            strokeWidth="5"
-                                            animationDuration="0.75"
-                                            ariaLabel="rotating-lines-loading"
-                                        />
-                                    </div>
-                                </>
-                            ) : (
-
-                                messages.map((data: any, index: any) => (
-                                    <div key={index}>
-                                        {(index === 0 ||
-                                            (data.timestamp &&
-                                                formatDateTime(data.timestamp).formattedDate !==
-                                                formatDateTime(messages[index - 1]?.timestamp)?.formattedDate)) && (
-                                                <center>
-                                                    <div className="mb-2">
-                                                        <span className="px-4 bg-white h-auto rounded-md">
-                                                            {formatDateTime(data.timestamp).formattedDate}
-                                                        </span>
-                                                    </div>
-                                                </center>
-                                            )}
-                                        <div className={`message_content flex ${data.sender === CurrentMobileNo ? "justify-end" : "justify-start"}`}>
-                                            <div className={`${data.sender === CurrentMobileNo ? "bg-[#D9FDD3]" : "bg-[#ffffff]"} text-dark rounded-lg p-2`} style={{ maxWidth: "300px" }}>
-                                                <div className="justify-between max-w-[300px]">
-                                                    <span className="whitespace-normal" style={{ wordWrap: "break-word" }}>
-                                                        {data.text}
-                                                    </span>
-                                                    <div style={{ fontSize: "10px" }}>
-                                                        <span>{formatDateTime(data.timestamp).formattedTime}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="flex items-center mt-4 p-2 w-full ">
-                        <div className="relative">
-                            <div
-                                className="bg-white py-[11px] ps-3 rounded-l-full text-2xl cursor-pointer"
-                            >
-                                {false ? <IoMdClose /> : <MdOutlineEmojiEmotions />}
-                            </div>
-                        </div>
-                        <input
-                            type="text"
-                            value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
-                            placeholder="Message... "
-                            className="w-[20%] flex-grow border  px-4 py-3 focus:outline-none focus:border-transparent  border-transparent"
-                            onKeyPress={(e) => {
-                                if (e.key === "Enter") {
-                                    e.preventDefault();
-                                    handleSendMessage();
-                                }
-                            }}
-                        />
-                        <div className="bg-white flex gap-4 py-[11px] pe-3 rounded-r-full text-2xl">
-                            <FaCamera className="text-xl" />
-                            <GoPaperclip />
-                            <RiMoneyRupeeCircleFill />
-                        </div>
-
-                        <button
-                            className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-                            type="submit"
-                        >
-                            <FaMicrophone />
-                        </button>
-                        <button
-                            className="ml-2 bg-[#035F52]  text-white  p-4 rounded-[50%] send-button"
-                            type="submit"
-                            onClick={handleSendMessage}
-                        >
-                            <IoSend />
-                        </button>
+        <>
+            <div className="flex flex-col h-screen bg-gray-100">
+                <div className="bg-teal-600 text-white py-4 px-6 flex items-center">
+                    <MdArrowBack
+                        className="text-2xl cursor-pointer"
+                        onClick={() => router.push("/users")}
+                    />
+                    <div className="ml-4">
+                        <p className="text-lg font-semibold">{receiveName}</p>
+                        <p className="text-sm text-gray-200">{mobileNo}</p>
                     </div>
                 </div>
+                <div className="flex-grow overflow-y-auto px-4 py-2" ref={containRef}>
+                    {loader ?
+                        <div className="flex items-center justify-center pt-20">
+                            <RotatingLines width="50" strokeColor="#035F51" />
+                        </div>
+                        :
+                        messages.map((data: any, index: any) => (
+                            <div key={data.id}>
+                                {(index === 0 ||
+                                    formatDateTime(data.timestamp).formattedDate !==
+                                    formatDateTime(messages[index - 1]?.timestamp).formattedDate) && (
+                                        <div className="text-center my-2 text-sm text-gray-500">
+                                            {formatDateTime(data.timestamp).formattedDate}
+                                        </div>
+                                    )}
+                                <div
+                                    className={`flex mb-2 ${data.sender === CurrentMobileNo ? "justify-end" : "justify-start"
+                                        }`}
+                                >
+
+                                    <div
+                                        className={`p-3 rounded-lg text-sm shadow-md ${data.sender === CurrentMobileNo
+                                            ? "bg-teal-500 text-white"
+                                            : "bg-white text-gray-800"
+                                            }`}
+                                        style={{ maxWidth: "75%" }}
+                                    >
+                                        <p>{data.text}</p>
+                                        <span className="block mt-1 text-xs text-right">
+                                            {formatDateTime(data.timestamp).formattedTime}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <div className="flex items-center bg-white p-4 border-t">
+                    <input
+                        type="text"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Type a message..."
+                        className="flex-grow border rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                handleSendMessage();
+                            }
+                        }}
+                    />
+                    <button
+                        className="ml-3 bg-teal-500 text-white p-3 rounded-full shadow-lg focus:outline-none"
+                        onClick={handleSendMessage}
+                    >
+                        <IoSend className="text-xl" />
+                    </button>
+                </div>
             </div>
-        </div >
+        </>
+
     );
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import BottomBar from "../bottombar/BottomBar";
 import TopBar from "../topbar/TopBar";
 
@@ -7,13 +8,30 @@ type LayoutProps = {
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const router = useRouter();
+  const isUserRoute = router.pathname === "/users";
+
   return (
     <div className="flex flex-col h-screen w-full bg-white">
-      <TopBar />
+      {/* TopBar */}
+      {isUserRoute && (
+        <div className="flex-none">
+          <TopBar />
+        </div>
+      )}
 
-      <div className="flex-1 overflow-y-auto  ">{children}</div>
+      {/* Main Content */}
+      <main className="flex-1 overflow-hidden">
+        {children}
+      </main>
 
-      <BottomBar />
+      {/* BottomBar */}
+      {
+        isUserRoute &&
+        <div className="flex-none">
+          <BottomBar />
+        </div>
+      }
     </div>
   );
 };

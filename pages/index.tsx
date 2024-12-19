@@ -13,13 +13,13 @@ export default function Home() {
     <div className={`min-h-screen ${inter.className} relative`}>
       <div className="pb-16">
         {isToken ?
-          <Layout>
-            <Login />
-          </Layout>
+          // <Layout>
+          <Login />
+          // </Layout>
           :
           <AuthWhatsapp />
         }
       </div>
-    </div>
+    </div >
   );
 }

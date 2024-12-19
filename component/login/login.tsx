@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
@@ -15,6 +15,14 @@ function Login() {
   );
   const router = useRouter();
   const { email }: any = router.query;
+
+  useEffect(() => {
+    const authToken = cookies.get("auth-token");
+    if (authToken) {
+      console.log("Navigating to /dashboard");
+      router.push("/users");
+    }
+  }, [cookies, router]);
 
   const usersRef = collection(db, "Users");
 
